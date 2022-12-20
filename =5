@@ -1,0 +1,212 @@
+Collecting nbconvert
+  Using cached nbconvert-7.2.7-py3-none-any.whl (273 kB)
+Collecting jinja2>=3.0
+  Using cached Jinja2-3.1.2-py3-none-any.whl (133 kB)
+Collecting mistune<3,>=2.0.3
+  Using cached mistune-2.0.4-py2.py3-none-any.whl (24 kB)
+Collecting pandocfilters>=1.4.1
+  Using cached pandocfilters-1.5.0-py2.py3-none-any.whl (8.7 kB)
+Collecting importlib-metadata>=3.6
+  Using cached importlib_metadata-5.2.0-py3-none-any.whl (21 kB)
+Collecting nbclient>=0.5.0
+  Using cached nbclient-0.7.2-py3-none-any.whl (71 kB)
+Collecting nbformat>=5.1
+  Using cached nbformat-5.7.1-py3-none-any.whl (77 kB)
+Collecting packaging
+  Using cached packaging-22.0-py3-none-any.whl (42 kB)
+Collecting defusedxml
+  Using cached defusedxml-0.7.1-py2.py3-none-any.whl (25 kB)
+Collecting tinycss2
+  Using cached tinycss2-1.2.1-py3-none-any.whl (21 kB)
+Collecting pygments>=2.4.1
+  Using cached Pygments-2.13.0-py3-none-any.whl (1.1 MB)
+Collecting beautifulsoup4
+  Using cached beautifulsoup4-4.11.1-py3-none-any.whl (128 kB)
+Collecting bleach
+  Using cached bleach-5.0.1-py3-none-any.whl (160 kB)
+Collecting jupyterlab-pygments
+  Using cached jupyterlab_pygments-0.2.2-py2.py3-none-any.whl (21 kB)
+Collecting traitlets>=5.0
+  Using cached traitlets-5.8.0-py3-none-any.whl (116 kB)
+Collecting markupsafe>=2.0
+  Using cached MarkupSafe-2.1.1-cp37-cp37m-win_amd64.whl (17 kB)
+Collecting jupyter-core>=4.7
+  Using cached jupyter_core-4.12.0-py3-none-any.whl (89 kB)
+Collecting zipp>=0.5
+  Using cached zipp-3.11.0-py3-none-any.whl (6.6 kB)
+Collecting typing-extensions>=3.6.4
+  Using cached typing_extensions-4.4.0-py3-none-any.whl (26 kB)
+Collecting pywin32>=1.0
+  Using cached pywin32-305-cp37-cp37m-win_amd64.whl (12.2 MB)
+Collecting jupyter-client>=6.1.12
+  Using cached jupyter_client-7.4.8-py3-none-any.whl (133 kB)
+Collecting jsonschema>=2.6
+  Using cached jsonschema-4.17.3-py3-none-any.whl (90 kB)
+Collecting fastjsonschema
+  Using cached fastjsonschema-2.16.2-py3-none-any.whl (22 kB)
+Collecting soupsieve>1.2
+  Using cached soupsieve-2.3.2.post1-py3-none-any.whl (37 kB)
+Collecting six>=1.9.0
+  Using cached six-1.16.0-py2.py3-none-any.whl (11 kB)
+Collecting webencodings
+  Using cached webencodings-0.5.1-py2.py3-none-any.whl (11 kB)
+Collecting pyrsistent!=0.17.0,!=0.17.1,!=0.17.2,>=0.14.0
+  Using cached pyrsistent-0.19.2-cp37-cp37m-win_amd64.whl (62 kB)
+Collecting pkgutil-resolve-name>=1.3.10
+  Using cached pkgutil_resolve_name-1.3.10-py3-none-any.whl (4.7 kB)
+Collecting importlib-resources>=1.4.0
+  Using cached importlib_resources-5.10.1-py3-none-any.whl (34 kB)
+Collecting attrs>=17.4.0
+  Using cached attrs-22.1.0-py2.py3-none-any.whl (58 kB)
+Collecting pyzmq>=23.0
+  Using cached pyzmq-24.0.1-cp37-cp37m-win_amd64.whl (1.0 MB)
+Collecting tornado>=6.2
+  Using cached tornado-6.2-cp37-abi3-win_amd64.whl (425 kB)
+Collecting nest-asyncio>=1.5.4
+  Using cached nest_asyncio-1.5.6-py3-none-any.whl (5.2 kB)
+Collecting entrypoints
+  Using cached entrypoints-0.4-py3-none-any.whl (5.3 kB)
+Collecting python-dateutil>=2.8.2
+  Using cached python_dateutil-2.8.2-py2.py3-none-any.whl (247 kB)
+Installing collected packages: webencodings, pywin32, mistune, fastjsonschema, zipp, typing-extensions, traitlets, tornado, tinycss2, soupsieve, six, pyzmq, pyrsistent, pygments, pkgutil-resolve-name, pandocfilters, packaging, nest-asyncio, markupsafe, jupyterlab-pygments, entrypoints, defusedxml, attrs, python-dateutil, jupyter-core, jinja2, importlib-resources, importlib-metadata, bleach, beautifulsoup4, jupyter-client, jsonschema, nbformat, nbclient, nbconvert
+  Attempting uninstall: webencodings
+    Found existing installation: webencodings 0.5.1
+    Uninstalling webencodings-0.5.1:
+      Successfully uninstalled webencodings-0.5.1
+  Attempting uninstall: pywin32
+    Found existing installation: pywin32 305
+    Uninstalling pywin32-305:
+      Successfully uninstalled pywin32-305
+  Attempting uninstall: mistune
+    Found existing installation: mistune 2.0.4
+    Uninstalling mistune-2.0.4:
+      Successfully uninstalled mistune-2.0.4
+  Attempting uninstall: fastjsonschema
+    Found existing installation: fastjsonschema 2.16.2
+    Uninstalling fastjsonschema-2.16.2:
+      Successfully uninstalled fastjsonschema-2.16.2
+  Attempting uninstall: zipp
+    Found existing installation: zipp 3.11.0
+    Uninstalling zipp-3.11.0:
+      Successfully uninstalled zipp-3.11.0
+  Attempting uninstall: typing-extensions
+    Found existing installation: typing_extensions 4.4.0
+    Uninstalling typing_extensions-4.4.0:
+      Successfully uninstalled typing_extensions-4.4.0
+  Attempting uninstall: traitlets
+    Found existing installation: traitlets 5.8.0
+    Uninstalling traitlets-5.8.0:
+      Successfully uninstalled traitlets-5.8.0
+  Attempting uninstall: tornado
+    Found existing installation: tornado 6.2
+    Uninstalling tornado-6.2:
+      Successfully uninstalled tornado-6.2
+  Attempting uninstall: tinycss2
+    Found existing installation: tinycss2 1.2.1
+    Uninstalling tinycss2-1.2.1:
+      Successfully uninstalled tinycss2-1.2.1
+  Attempting uninstall: soupsieve
+    Found existing installation: soupsieve 2.3.2.post1
+    Uninstalling soupsieve-2.3.2.post1:
+      Successfully uninstalled soupsieve-2.3.2.post1
+  Attempting uninstall: six
+    Found existing installation: six 1.16.0
+    Uninstalling six-1.16.0:
+      Successfully uninstalled six-1.16.0
+  Attempting uninstall: pyzmq
+    Found existing installation: pyzmq 24.0.1
+    Uninstalling pyzmq-24.0.1:
+      Successfully uninstalled pyzmq-24.0.1
+  Attempting uninstall: pyrsistent
+    Found existing installation: pyrsistent 0.19.2
+    Uninstalling pyrsistent-0.19.2:
+      Successfully uninstalled pyrsistent-0.19.2
+  Attempting uninstall: pygments
+    Found existing installation: Pygments 2.13.0
+    Uninstalling Pygments-2.13.0:
+      Successfully uninstalled Pygments-2.13.0
+  Attempting uninstall: pkgutil-resolve-name
+    Found existing installation: pkgutil_resolve_name 1.3.10
+    Uninstalling pkgutil_resolve_name-1.3.10:
+      Successfully uninstalled pkgutil_resolve_name-1.3.10
+  Attempting uninstall: pandocfilters
+    Found existing installation: pandocfilters 1.5.0
+    Uninstalling pandocfilters-1.5.0:
+      Successfully uninstalled pandocfilters-1.5.0
+  Attempting uninstall: packaging
+    Found existing installation: packaging 22.0
+    Uninstalling packaging-22.0:
+      Successfully uninstalled packaging-22.0
+  Attempting uninstall: nest-asyncio
+    Found existing installation: nest-asyncio 1.5.6
+    Uninstalling nest-asyncio-1.5.6:
+      Successfully uninstalled nest-asyncio-1.5.6
+  Attempting uninstall: markupsafe
+    Found existing installation: MarkupSafe 2.1.1
+    Uninstalling MarkupSafe-2.1.1:
+      Successfully uninstalled MarkupSafe-2.1.1
+  Attempting uninstall: jupyterlab-pygments
+    Found existing installation: jupyterlab-pygments 0.2.2
+    Uninstalling jupyterlab-pygments-0.2.2:
+      Successfully uninstalled jupyterlab-pygments-0.2.2
+  Attempting uninstall: entrypoints
+    Found existing installation: entrypoints 0.4
+    Uninstalling entrypoints-0.4:
+      Successfully uninstalled entrypoints-0.4
+  Attempting uninstall: defusedxml
+    Found existing installation: defusedxml 0.7.1
+    Uninstalling defusedxml-0.7.1:
+      Successfully uninstalled defusedxml-0.7.1
+  Attempting uninstall: attrs
+    Found existing installation: attrs 22.1.0
+    Uninstalling attrs-22.1.0:
+      Successfully uninstalled attrs-22.1.0
+  Attempting uninstall: python-dateutil
+    Found existing installation: python-dateutil 2.8.2
+    Uninstalling python-dateutil-2.8.2:
+      Successfully uninstalled python-dateutil-2.8.2
+  Attempting uninstall: jupyter-core
+    Found existing installation: jupyter_core 4.12.0
+    Uninstalling jupyter_core-4.12.0:
+      Successfully uninstalled jupyter_core-4.12.0
+  Attempting uninstall: jinja2
+    Found existing installation: Jinja2 3.1.2
+    Uninstalling Jinja2-3.1.2:
+      Successfully uninstalled Jinja2-3.1.2
+  Attempting uninstall: importlib-resources
+    Found existing installation: importlib-resources 5.10.1
+    Uninstalling importlib-resources-5.10.1:
+      Successfully uninstalled importlib-resources-5.10.1
+  Attempting uninstall: importlib-metadata
+    Found existing installation: importlib-metadata 5.2.0
+    Uninstalling importlib-metadata-5.2.0:
+      Successfully uninstalled importlib-metadata-5.2.0
+  Attempting uninstall: bleach
+    Found existing installation: bleach 5.0.1
+    Uninstalling bleach-5.0.1:
+      Successfully uninstalled bleach-5.0.1
+  Attempting uninstall: beautifulsoup4
+    Found existing installation: beautifulsoup4 4.11.1
+    Uninstalling beautifulsoup4-4.11.1:
+      Successfully uninstalled beautifulsoup4-4.11.1
+  Attempting uninstall: jupyter-client
+    Found existing installation: jupyter_client 7.4.8
+    Uninstalling jupyter_client-7.4.8:
+      Successfully uninstalled jupyter_client-7.4.8
+  Attempting uninstall: jsonschema
+    Found existing installation: jsonschema 4.17.3
+    Uninstalling jsonschema-4.17.3:
+      Successfully uninstalled jsonschema-4.17.3
+  Attempting uninstall: nbformat
+    Found existing installation: nbformat 5.7.1
+    Uninstalling nbformat-5.7.1:
+      Successfully uninstalled nbformat-5.7.1
+  Attempting uninstall: nbclient
+    Found existing installation: nbclient 0.7.2
+    Uninstalling nbclient-0.7.2:
+      Successfully uninstalled nbclient-0.7.2
+  Attempting uninstall: nbconvert
+    Found existing installation: nbconvert 7.2.7
+    Uninstalling nbconvert-7.2.7:
+      Successfully uninstalled nbconvert-7.2.7
+Successfully installed attrs-22.1.0 beautifulsoup4-4.11.1 bleach-5.0.1 defusedxml-0.7.1 entrypoints-0.4 fastjsonschema-2.16.2 importlib-metadata-5.2.0 importlib-resources-5.10.1 jinja2-3.1.2 jsonschema-4.17.3 jupyter-client-7.4.8 jupyter-core-4.12.0 jupyterlab-pygments-0.2.2 markupsafe-2.1.1 mistune-2.0.4 nbclient-0.7.2 nbconvert-7.2.7 nbformat-5.7.1 nest-asyncio-1.5.6 packaging-22.0 pandocfilters-1.5.0 pkgutil-resolve-name-1.3.10 pygments-2.13.0 pyrsistent-0.19.2 python-dateutil-2.8.2 pywin32-305 pyzmq-24.0.1 six-1.16.0 soupsieve-2.3.2.post1 tinycss2-1.2.1 tornado-6.2 traitlets-5.8.0 typing-extensions-4.4.0 webencodings-0.5.1 zipp-3.11.0

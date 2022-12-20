@@ -1,0 +1,2216 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="generator" content="Pelican" />
+        <title>ET Jupyter Data Science Blog - Ed Taylor</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="ET Jupyter Data Science Blog Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">ET Jupyter Data Science Blog</a></h1>
+                <nav><ul>
+                    <li><a href="/category/posts.html">posts</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/rl-notes.html">Reinforcement Learning Notes</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2022-12-20T00:00:00-06:00">
+                Published: Tue 20 December 2022
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/ed-taylor.html">Ed Taylor</a>
+        </address>
+<p>In <a href="/category/posts.html">posts</a>.</p>
+<p>tags: <a href="/tag/rl-python-dp.html">rl python dp</a> </p>
+</footer><!-- /.post-info --><style type="text/css">/*!
+*
+* IPython notebook
+*
+*/
+/* CSS font colors for translated ANSI escape sequences */
+/* The color values are a mix of
+   http://www.xcolors.net/dl/baskerville-ivorylight and
+   http://www.xcolors.net/dl/euphrasia */
+.ansi-black-fg {
+  color: #3E424D;
+}
+.ansi-black-bg {
+  background-color: #3E424D;
+}
+.ansi-black-intense-fg {
+  color: #282C36;
+}
+.ansi-black-intense-bg {
+  background-color: #282C36;
+}
+.ansi-red-fg {
+  color: #E75C58;
+}
+.ansi-red-bg {
+  background-color: #E75C58;
+}
+.ansi-red-intense-fg {
+  color: #B22B31;
+}
+.ansi-red-intense-bg {
+  background-color: #B22B31;
+}
+.ansi-green-fg {
+  color: #00A250;
+}
+.ansi-green-bg {
+  background-color: #00A250;
+}
+.ansi-green-intense-fg {
+  color: #007427;
+}
+.ansi-green-intense-bg {
+  background-color: #007427;
+}
+.ansi-yellow-fg {
+  color: #DDB62B;
+}
+.ansi-yellow-bg {
+  background-color: #DDB62B;
+}
+.ansi-yellow-intense-fg {
+  color: #B27D12;
+}
+.ansi-yellow-intense-bg {
+  background-color: #B27D12;
+}
+.ansi-blue-fg {
+  color: #208FFB;
+}
+.ansi-blue-bg {
+  background-color: #208FFB;
+}
+.ansi-blue-intense-fg {
+  color: #0065CA;
+}
+.ansi-blue-intense-bg {
+  background-color: #0065CA;
+}
+.ansi-magenta-fg {
+  color: #D160C4;
+}
+.ansi-magenta-bg {
+  background-color: #D160C4;
+}
+.ansi-magenta-intense-fg {
+  color: #A03196;
+}
+.ansi-magenta-intense-bg {
+  background-color: #A03196;
+}
+.ansi-cyan-fg {
+  color: #60C6C8;
+}
+.ansi-cyan-bg {
+  background-color: #60C6C8;
+}
+.ansi-cyan-intense-fg {
+  color: #258F8F;
+}
+.ansi-cyan-intense-bg {
+  background-color: #258F8F;
+}
+.ansi-white-fg {
+  color: #C5C1B4;
+}
+.ansi-white-bg {
+  background-color: #C5C1B4;
+}
+.ansi-white-intense-fg {
+  color: #A1A6B2;
+}
+.ansi-white-intense-bg {
+  background-color: #A1A6B2;
+}
+.ansi-default-inverse-fg {
+  color: #FFFFFF;
+}
+.ansi-default-inverse-bg {
+  background-color: #000000;
+}
+.ansi-bold {
+  font-weight: bold;
+}
+.ansi-underline {
+  text-decoration: underline;
+}
+/* The following styles are deprecated an will be removed in a future version */
+.ansibold {
+  font-weight: bold;
+}
+.ansi-inverse {
+  outline: 0.5px dotted;
+}
+/* use dark versions for foreground, to improve visibility */
+.ansiblack {
+  color: black;
+}
+.ansired {
+  color: darkred;
+}
+.ansigreen {
+  color: darkgreen;
+}
+.ansiyellow {
+  color: #c4a000;
+}
+.ansiblue {
+  color: darkblue;
+}
+.ansipurple {
+  color: darkviolet;
+}
+.ansicyan {
+  color: steelblue;
+}
+.ansigray {
+  color: gray;
+}
+/* and light for background, for the same reason */
+.ansibgblack {
+  background-color: black;
+}
+.ansibgred {
+  background-color: red;
+}
+.ansibggreen {
+  background-color: green;
+}
+.ansibgyellow {
+  background-color: yellow;
+}
+.ansibgblue {
+  background-color: blue;
+}
+.ansibgpurple {
+  background-color: magenta;
+}
+.ansibgcyan {
+  background-color: cyan;
+}
+.ansibggray {
+  background-color: gray;
+}
+div.cell {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border-radius: 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+  width: 100%;
+  padding: 5px;
+  /* This acts as a spacer between cells, that is outside the border */
+  margin: 0px;
+  outline: none;
+  position: relative;
+  overflow: visible;
+}
+div.cell:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: transparent;
+}
+div.cell.jupyter-soft-selected {
+  border-left-color: #E3F2FD;
+  border-left-width: 1px;
+  padding-left: 5px;
+  border-right-color: #E3F2FD;
+  border-right-width: 1px;
+  background: #E3F2FD;
+}
+@media print {
+  div.cell.jupyter-soft-selected {
+    border-color: transparent;
+  }
+}
+div.cell.selected,
+div.cell.selected.jupyter-soft-selected {
+  border-color: #ababab;
+}
+div.cell.selected:before,
+div.cell.selected.jupyter-soft-selected:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: #42A5F5;
+}
+@media print {
+  div.cell.selected,
+  div.cell.selected.jupyter-soft-selected {
+    border-color: transparent;
+  }
+}
+.edit_mode div.cell.selected {
+  border-color: #66BB6A;
+}
+.edit_mode div.cell.selected:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: #66BB6A;
+}
+@media print {
+  .edit_mode div.cell.selected {
+    border-color: transparent;
+  }
+}
+.prompt {
+  /* This needs to be wide enough for 3 digit prompt numbers: In[100]: */
+  min-width: 14ex;
+  /* This padding is tuned to match the padding on the CodeMirror editor. */
+  padding: 0.4em;
+  margin: 0px;
+  font-family: monospace;
+  text-align: right;
+  /* This has to match that of the the CodeMirror class line-height below */
+  line-height: 1.21429em;
+  /* Don't highlight prompt number selection */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Use default cursor */
+  cursor: default;
+}
+@media (max-width: 540px) {
+  .prompt {
+    text-align: left;
+  }
+}
+div.inner_cell {
+  min-width: 0;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  /* Old browsers */
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  /* Modern browsers */
+  flex: 1;
+}
+/* input_area and input_prompt must match in top border and margin for alignment */
+div.input_area {
+  border: 1px solid #cfcfcf;
+  border-radius: 2px;
+  background: #f7f7f7;
+  line-height: 1.21429em;
+}
+/* This is needed so that empty prompt areas can collapse to zero height when there
+   is no content in the output_subarea and the prompt. The main purpose of this is
+   to make sure that empty JavaScript output_subareas have no height. */
+div.prompt:empty {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+div.unrecognized_cell {
+  padding: 5px 5px 5px 0px;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+div.unrecognized_cell .inner_cell {
+  border-radius: 2px;
+  padding: 5px;
+  font-weight: bold;
+  color: red;
+  border: 1px solid #cfcfcf;
+  background: #eaeaea;
+}
+div.unrecognized_cell .inner_cell a {
+  color: inherit;
+  text-decoration: none;
+}
+div.unrecognized_cell .inner_cell a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+@media (max-width: 540px) {
+  div.unrecognized_cell > div.prompt {
+    display: none;
+  }
+}
+div.code_cell {
+  /* avoid page breaking on code cells when printing */
+}
+@media print {
+  div.code_cell {
+    page-break-inside: avoid;
+  }
+}
+/* any special styling for code cells that are currently running goes here */
+div.input {
+  page-break-inside: avoid;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.input {
+    /* Old browsers */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-align: stretch;
+    display: box;
+    box-orient: vertical;
+    box-align: stretch;
+    /* Modern browsers */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+/* input_area and input_prompt must match in top border and margin for alignment */
+div.input_prompt {
+  color: #303F9F;
+  border-top: 1px solid transparent;
+}
+div.input_area > div.highlight {
+  margin: 0.4em;
+  border: none;
+  padding: 0px;
+  background-color: transparent;
+}
+div.input_area > div.highlight > pre {
+  margin: 0px;
+  border: none;
+  padding: 0px;
+  background-color: transparent;
+}
+/* The following gets added to the <head> if it is detected that the user has a
+ * monospace font with inconsistent normal/bold/italic height.  See
+ * notebookmain.js.  Such fonts will have keywords vertically offset with
+ * respect to the rest of the text.  The user should select a better font.
+ * See: https://github.com/ipython/ipython/issues/1503
+ *
+ * .CodeMirror span {
+ *      vertical-align: bottom;
+ * }
+ */
+.CodeMirror {
+  line-height: 1.21429em;
+  /* Changed from 1em to our global default */
+  font-size: 14px;
+  height: auto;
+  /* Changed to auto to autogrow */
+  background: none;
+  /* Changed from white to allow our bg to show through */
+}
+.CodeMirror-scroll {
+  /*  The CodeMirror docs are a bit fuzzy on if overflow-y should be hidden or visible.*/
+  /*  We have found that if it is visible, vertical scrollbars appear with font size changes.*/
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.CodeMirror-lines {
+  /* In CM2, this used to be 0.4em, but in CM3 it went to 4px. We need the em value because */
+  /* we have set a different line-height and want this to scale with that. */
+  /* Note that this should set vertical padding only, since CodeMirror assumes
+       that horizontal padding will be set on CodeMirror pre */
+  padding: 0.4em 0;
+}
+.CodeMirror-linenumber {
+  padding: 0 8px 0 4px;
+}
+.CodeMirror-gutters {
+  border-bottom-left-radius: 2px;
+  border-top-left-radius: 2px;
+}
+.CodeMirror pre {
+  /* In CM3 this went to 4px from 0 in CM2. This sets horizontal padding only,
+    use .CodeMirror-lines for vertical */
+  padding: 0 0.4em;
+  border: 0;
+  border-radius: 0;
+}
+.CodeMirror-cursor {
+  border-left: 1.4px solid black;
+}
+@media screen and (min-width: 2138px) and (max-width: 4319px) {
+  .CodeMirror-cursor {
+    border-left: 2px solid black;
+  }
+}
+@media screen and (min-width: 4320px) {
+  .CodeMirror-cursor {
+    border-left: 4px solid black;
+  }
+}
+/*
+
+Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
+Adapted from GitHub theme
+
+*/
+.highlight-base {
+  color: #000;
+}
+.highlight-variable {
+  color: #000;
+}
+.highlight-variable-2 {
+  color: #1a1a1a;
+}
+.highlight-variable-3 {
+  color: #333333;
+}
+.highlight-string {
+  color: #BA2121;
+}
+.highlight-comment {
+  color: #408080;
+  font-style: italic;
+}
+.highlight-number {
+  color: #080;
+}
+.highlight-atom {
+  color: #88F;
+}
+.highlight-keyword {
+  color: #008000;
+  font-weight: bold;
+}
+.highlight-builtin {
+  color: #008000;
+}
+.highlight-error {
+  color: #f00;
+}
+.highlight-operator {
+  color: #AA22FF;
+  font-weight: bold;
+}
+.highlight-meta {
+  color: #AA22FF;
+}
+/* previously not defined, copying from default codemirror */
+.highlight-def {
+  color: #00f;
+}
+.highlight-string-2 {
+  color: #f50;
+}
+.highlight-qualifier {
+  color: #555;
+}
+.highlight-bracket {
+  color: #997;
+}
+.highlight-tag {
+  color: #170;
+}
+.highlight-attribute {
+  color: #00c;
+}
+.highlight-header {
+  color: blue;
+}
+.highlight-quote {
+  color: #090;
+}
+.highlight-link {
+  color: #00c;
+}
+/* apply the same style to codemirror */
+.cm-s-ipython span.cm-keyword {
+  color: #008000;
+  font-weight: bold;
+}
+.cm-s-ipython span.cm-atom {
+  color: #88F;
+}
+.cm-s-ipython span.cm-number {
+  color: #080;
+}
+.cm-s-ipython span.cm-def {
+  color: #00f;
+}
+.cm-s-ipython span.cm-variable {
+  color: #000;
+}
+.cm-s-ipython span.cm-operator {
+  color: #AA22FF;
+  font-weight: bold;
+}
+.cm-s-ipython span.cm-variable-2 {
+  color: #1a1a1a;
+}
+.cm-s-ipython span.cm-variable-3 {
+  color: #333333;
+}
+.cm-s-ipython span.cm-comment {
+  color: #408080;
+  font-style: italic;
+}
+.cm-s-ipython span.cm-string {
+  color: #BA2121;
+}
+.cm-s-ipython span.cm-string-2 {
+  color: #f50;
+}
+.cm-s-ipython span.cm-meta {
+  color: #AA22FF;
+}
+.cm-s-ipython span.cm-qualifier {
+  color: #555;
+}
+.cm-s-ipython span.cm-builtin {
+  color: #008000;
+}
+.cm-s-ipython span.cm-bracket {
+  color: #997;
+}
+.cm-s-ipython span.cm-tag {
+  color: #170;
+}
+.cm-s-ipython span.cm-attribute {
+  color: #00c;
+}
+.cm-s-ipython span.cm-header {
+  color: blue;
+}
+.cm-s-ipython span.cm-quote {
+  color: #090;
+}
+.cm-s-ipython span.cm-link {
+  color: #00c;
+}
+.cm-s-ipython span.cm-error {
+  color: #f00;
+}
+.cm-s-ipython span.cm-tab {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAAXNSR0IArs4c6QAAAGFJREFUSMft1LsRQFAQheHPowAKoACx3IgEKtaEHujDjORSgWTH/ZOdnZOcM/sgk/kFFWY0qV8foQwS4MKBCS3qR6ixBJvElOobYAtivseIE120FaowJPN75GMu8j/LfMwNjh4HUpwg4LUAAAAASUVORK5CYII=);
+  background-position: right;
+  background-repeat: no-repeat;
+}
+div.output_wrapper {
+  /* this position must be relative to enable descendents to be absolute within it */
+  position: relative;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  z-index: 1;
+}
+/* class for the output area when it should be height-limited */
+div.output_scroll {
+  /* ideally, this would be max-height, but FF barfs all over that */
+  height: 24em;
+  /* FF needs this *and the wrapper* to specify full width, or it will shrinkwrap */
+  width: 100%;
+  overflow: auto;
+  border-radius: 2px;
+  -webkit-box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+  display: block;
+}
+/* output div while it is collapsed */
+div.output_collapsed {
+  margin: 0px;
+  padding: 0px;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+div.out_prompt_overlay {
+  height: 100%;
+  padding: 0px 0.4em;
+  position: absolute;
+  border-radius: 2px;
+}
+div.out_prompt_overlay:hover {
+  /* use inner shadow to get border that is computed the same on WebKit/FF */
+  -webkit-box-shadow: inset 0 0 1px #000;
+  box-shadow: inset 0 0 1px #000;
+  background: rgba(240, 240, 240, 0.5);
+}
+div.output_prompt {
+  color: #D84315;
+}
+/* This class is the outer container of all output sections. */
+div.output_area {
+  padding: 0px;
+  page-break-inside: avoid;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+div.output_area .MathJax_Display {
+  text-align: left !important;
+}
+div.output_area 
+div.output_area 
+div.output_area img,
+div.output_area svg {
+  max-width: 100%;
+  height: auto;
+}
+div.output_area img.unconfined,
+div.output_area svg.unconfined {
+  max-width: none;
+}
+div.output_area .mglyph > img {
+  max-width: none;
+}
+/* This is needed to protect the pre formating from global settings such
+   as that of bootstrap */
+.output {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.output_area {
+    /* Old browsers */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-align: stretch;
+    display: box;
+    box-orient: vertical;
+    box-align: stretch;
+    /* Modern browsers */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+div.output_area pre {
+  margin: 0;
+  padding: 1px 0 1px 0;
+  border: 0;
+  vertical-align: baseline;
+  color: black;
+  background-color: transparent;
+  border-radius: 0;
+}
+/* This class is for the output subarea inside the output_area and after
+   the prompt div. */
+div.output_subarea {
+  overflow-x: auto;
+  padding: 0.4em;
+  /* Old browsers */
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  /* Modern browsers */
+  flex: 1;
+  max-width: calc(100% - 14ex);
+}
+div.output_scroll div.output_subarea {
+  overflow-x: visible;
+}
+/* The rest of the output_* classes are for special styling of the different
+   output types */
+/* all text output has this class: */
+div.output_text {
+  text-align: left;
+  color: #000;
+  /* This has to match that of the the CodeMirror class line-height below */
+  line-height: 1.21429em;
+}
+/* stdout/stderr are 'text' as well as 'stream', but execute_result/error are *not* streams */
+div.output_stderr {
+  background: #fdd;
+  /* very light red background for stderr */
+}
+div.output_latex {
+  text-align: left;
+}
+/* Empty output_javascript divs should have no height */
+div.output_javascript:empty {
+  padding: 0;
+}
+.js-error {
+  color: darkred;
+}
+/* raw_input styles */
+div.raw_input_container {
+  line-height: 1.21429em;
+  padding-top: 5px;
+}
+pre.raw_input_prompt {
+  /* nothing needed here. */
+}
+input.raw_input {
+  font-family: monospace;
+  font-size: inherit;
+  color: inherit;
+  width: auto;
+  /* make sure input baseline aligns with prompt */
+  vertical-align: baseline;
+  /* padding + margin = 0.5em between prompt and cursor */
+  padding: 0em 0.25em;
+  margin: 0em 0.25em;
+}
+input.raw_input:focus {
+  box-shadow: none;
+}
+p.p-space {
+  margin-bottom: 10px;
+}
+div.output_unrecognized {
+  padding: 5px;
+  font-weight: bold;
+  color: red;
+}
+div.output_unrecognized a {
+  color: inherit;
+  text-decoration: none;
+}
+div.output_unrecognized a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+.rendered_html {
+  color: #000;
+  /* any extras will just be numbers: */
+}
+
+
+
+.rendered_html :link {
+  text-decoration: underline;
+}
+.rendered_html :visited {
+  text-decoration: underline;
+}
+
+
+
+
+
+
+.rendered_html h1:first-child {
+  margin-top: 0.538em;
+}
+.rendered_html h2:first-child {
+  margin-top: 0.636em;
+}
+.rendered_html h3:first-child {
+  margin-top: 0.777em;
+}
+.rendered_html h4:first-child {
+  margin-top: 1em;
+}
+.rendered_html h5:first-child {
+  margin-top: 1em;
+}
+.rendered_html h6:first-child {
+  margin-top: 1em;
+}
+.rendered_html ul:not(.list-inline),
+.rendered_html ol:not(.list-inline) {
+  padding-left: 2em;
+}
+
+
+
+
+
+
+
+
+.rendered_html * + ul {
+  margin-top: 1em;
+}
+.rendered_html * + ol {
+  margin-top: 1em;
+}
+
+
+
+
+
+.rendered_html pre,
+
+
+
+
+.rendered_html tr,
+.rendered_html th,
+
+
+.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+.rendered_html * + table {
+  margin-top: 1em;
+}
+
+.rendered_html * + p {
+  margin-top: 1em;
+}
+
+.rendered_html * + img {
+  margin-top: 1em;
+}
+.rendered_html img,
+
+.rendered_html img.unconfined,
+
+
+.rendered_html * + .alert {
+  margin-top: 1em;
+}
+[dir="rtl"] 
+div.text_cell {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.text_cell > div.prompt {
+    display: none;
+  }
+}
+div.text_cell_render {
+  /*font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;*/
+  outline: none;
+  resize: none;
+  width: inherit;
+  border-style: none;
+  padding: 0.5em 0.5em 0.5em 0.4em;
+  color: #000;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+a.anchor-link:link {
+  text-decoration: none;
+  padding: 0px 20px;
+  visibility: hidden;
+}
+h1:hover .anchor-link,
+h2:hover .anchor-link,
+h3:hover .anchor-link,
+h4:hover .anchor-link,
+h5:hover .anchor-link,
+h6:hover .anchor-link {
+  visibility: visible;
+}
+.text_cell.rendered .input_area {
+  display: none;
+}
+.text_cell.rendered 
+.text_cell.rendered .rendered_html tr,
+.text_cell.rendered .rendered_html th,
+.text_cell.rendered 
+.text_cell.unrendered .text_cell_render {
+  display: none;
+}
+.text_cell .dropzone .input_area {
+  border: 2px dashed #bababa;
+  margin: -1px;
+}
+.cm-header-1,
+.cm-header-2,
+.cm-header-3,
+.cm-header-4,
+.cm-header-5,
+.cm-header-6 {
+  font-weight: bold;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.cm-header-1 {
+  font-size: 185.7%;
+}
+.cm-header-2 {
+  font-size: 157.1%;
+}
+.cm-header-3 {
+  font-size: 128.6%;
+}
+.cm-header-4 {
+  font-size: 110%;
+}
+.cm-header-5 {
+  font-size: 100%;
+  font-style: italic;
+}
+.cm-header-6 {
+  font-size: 100%;
+  font-style: italic;
+}
+</style>
+<style type="text/css">pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+ .highlight pre  .hll { background-color: #ffffcc }
+ .highlight pre  { background: #f8f8f8; }
+ .highlight pre  .c { color: #3D7B7B; font-style: italic } /* Comment */
+ .highlight pre  .err { border: 1px solid #FF0000 } /* Error */
+ .highlight pre  .k { color: #008000; font-weight: bold } /* Keyword */
+ .highlight pre  .o { color: #666666 } /* Operator */
+ .highlight pre  .ch { color: #3D7B7B; font-style: italic } /* Comment.Hashbang */
+ .highlight pre  .cm { color: #3D7B7B; font-style: italic } /* Comment.Multiline */
+ .highlight pre  .cp { color: #9C6500 } /* Comment.Preproc */
+ .highlight pre  .cpf { color: #3D7B7B; font-style: italic } /* Comment.PreprocFile */
+ .highlight pre  .c1 { color: #3D7B7B; font-style: italic } /* Comment.Single */
+ .highlight pre  .cs { color: #3D7B7B; font-style: italic } /* Comment.Special */
+ .highlight pre  .gd { color: #A00000 } /* Generic.Deleted */
+ .highlight pre  .ge { font-style: italic } /* Generic.Emph */
+ .highlight pre  .gr { color: #E40000 } /* Generic.Error */
+ .highlight pre  .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+ .highlight pre  .gi { color: #008400 } /* Generic.Inserted */
+ .highlight pre  .go { color: #717171 } /* Generic.Output */
+ .highlight pre  .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+ .highlight pre  .gs { font-weight: bold } /* Generic.Strong */
+ .highlight pre  .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+ .highlight pre  .gt { color: #0044DD } /* Generic.Traceback */
+ .highlight pre  .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+ .highlight pre  .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+ .highlight pre  .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+ .highlight pre  .kp { color: #008000 } /* Keyword.Pseudo */
+ .highlight pre  .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+ .highlight pre  .kt { color: #B00040 } /* Keyword.Type */
+ .highlight pre  .m { color: #666666 } /* Literal.Number */
+ .highlight pre  .s { color: #BA2121 } /* Literal.String */
+ .highlight pre  .na { color: #687822 } /* Name.Attribute */
+ .highlight pre  .nb { color: #008000 } /* Name.Builtin */
+ .highlight pre  .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+ .highlight pre  .no { color: #880000 } /* Name.Constant */
+ .highlight pre  .nd { color: #AA22FF } /* Name.Decorator */
+ .highlight pre  .ni { color: #717171; font-weight: bold } /* Name.Entity */
+ .highlight pre  .ne { color: #CB3F38; font-weight: bold } /* Name.Exception */
+ .highlight pre  .nf { color: #0000FF } /* Name.Function */
+ .highlight pre  .nl { color: #767600 } /* Name.Label */
+ .highlight pre  .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+ .highlight pre  .nt { color: #008000; font-weight: bold } /* Name.Tag */
+ .highlight pre  .nv { color: #19177C } /* Name.Variable */
+ .highlight pre  .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+ .highlight pre  .w { color: #bbbbbb } /* Text.Whitespace */
+ .highlight pre  .mb { color: #666666 } /* Literal.Number.Bin */
+ .highlight pre  .mf { color: #666666 } /* Literal.Number.Float */
+ .highlight pre  .mh { color: #666666 } /* Literal.Number.Hex */
+ .highlight pre  .mi { color: #666666 } /* Literal.Number.Integer */
+ .highlight pre  .mo { color: #666666 } /* Literal.Number.Oct */
+ .highlight pre  .sa { color: #BA2121 } /* Literal.String.Affix */
+ .highlight pre  .sb { color: #BA2121 } /* Literal.String.Backtick */
+ .highlight pre  .sc { color: #BA2121 } /* Literal.String.Char */
+ .highlight pre  .dl { color: #BA2121 } /* Literal.String.Delimiter */
+ .highlight pre  .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+ .highlight pre  .s2 { color: #BA2121 } /* Literal.String.Double */
+ .highlight pre  .se { color: #AA5D1F; font-weight: bold } /* Literal.String.Escape */
+ .highlight pre  .sh { color: #BA2121 } /* Literal.String.Heredoc */
+ .highlight pre  .si { color: #A45A77; font-weight: bold } /* Literal.String.Interpol */
+ .highlight pre  .sx { color: #008000 } /* Literal.String.Other */
+ .highlight pre  .sr { color: #A45A77 } /* Literal.String.Regex */
+ .highlight pre  .s1 { color: #BA2121 } /* Literal.String.Single */
+ .highlight pre  .ss { color: #19177C } /* Literal.String.Symbol */
+ .highlight pre  .bp { color: #008000 } /* Name.Builtin.Pseudo */
+ .highlight pre  .fm { color: #0000FF } /* Name.Function.Magic */
+ .highlight pre  .vc { color: #19177C } /* Name.Variable.Class */
+ .highlight pre  .vg { color: #19177C } /* Name.Variable.Global */
+ .highlight pre  .vi { color: #19177C } /* Name.Variable.Instance */
+ .highlight pre  .vm { color: #19177C } /* Name.Variable.Magic */
+ .highlight pre  .il { color: #666666 } /* Literal.Number.Integer.Long */</style><div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Reinforcement-Learning"><strong>Reinforcement Learning</strong><a class="anchor-link" href="#Reinforcement-Learning">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-When we think about the nature of learning, we think about interaction</p>
+<p>-Reinforcement learning focuses on a computational approach to goal-directed learning from interaction</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="1.1-Reinforcement-Learning"><strong>1.1 Reinforcement Learning</strong><a class="anchor-link" href="#1.1-Reinforcement-Learning">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-The learner is not specifically told which actions to take, but learns through trial and error in addition to delayed reward</p>
+<ul>
+<li>these two features distinguish RL from other ML</li>
+</ul>
+<p>-Formally, RL uses ideas from dynamical systems theory, specifically, "incompletely-known Markov decision processes"</p>
+<ul>
+<li>learning agent must sense environment, must be able to take action and must have goals</li>
+</ul>
+<p>-RL contrasts with supervised learning in that SL seeks to obtain generalizability from historical labels</p>
+<ul>
+<li>RL meanwhile is trying to learn from <em>interaction</em> and not necessarily from charted territory</li>
+</ul>
+<p>-unsupervised learning is also distinguished by the fact that its trying to find representations in the data and it has nothing to do with a reward signal</p>
+<p>-Therefore, we consider RL to be a third paradigm of ML</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-One of the challenges of RL is the trade-off between exploration and exploitation</p>
+<ul>
+<li>to maximize reward, it can exploit past behaviors its deemed rewarding</li>
+<li>but to find those behaviors in the first place, it has to explore and possibly lose reward</li>
+<li>The catch is that the task cannot be accomplished by either one exclusively</li>
+<li>The exploration-exploitation dilemna remains unsolved</li>
+</ul>
+<p>-RL is part of a swing of the pendulum in AI research towards discovery of principles, as opposed to rules based</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="1.3-Elements-of-Reinforcement-Learning"><strong>1.3 Elements of Reinforcement Learning</strong><a class="anchor-link" href="#1.3-Elements-of-Reinforcement-Learning">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-The 4 main elements of an RL system are: a <em>policy</em>, a <em>reward signal</em>, a <em>value function</em> and optionally, a <em>model</em> of the environment</p>
+<ul>
+<li><p>a <strong>policy</strong> defines the agent's way of behaving.</p>
+<ul>
+<li>Its a mapping from perceived states of the environment to actions to be taken in those states (in psychology, called <em>associations</em> and from their perspective is the basis for learning)</li>
+<li>may be as simple as a lookup or as complicated as a search process</li>
+</ul>
+</li>
+<li><p>a <strong>reward signal</strong> defines the goal of the RL system.</p>
+<ul>
+<li>The reward is that which the system is trying to maximize and is the primary basis for altering policy</li>
+<li>it is more immediate term</li>
+</ul>
+</li>
+<li><p>a <strong>value function</strong> specifies what is good in the long-term</p>
+<ul>
+<li>The specifies the total amount of reward which can be expected in the long-term</li>
+</ul>
+</li>
+<li><p>But rewards are primary, and values are predictions of rewards. <strong>Without rewards there could be no values.</strong></p>
+<ul>
+<li>However, when making and evaluating decision, we use values since they provide the most reward to us over time</li>
+<li>Values are difficult to determine, while rewards are a given</li>
+<li>Value estimation is one of the most important things to have been progressed in RL research in the last 60 years</li>
+</ul>
+</li>
+<li><p>a <strong>model</strong> of the environment allows inferences to be made about how the environment will behave</p>
+<ul>
+<li>e.g. given a state and an action, the model might predict next state and reward</li>
+<li>models are used for planning and are not in all RL systems</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="1.4-Limitations-and-Scope"><strong>1.4 Limitations and Scope</strong><a class="anchor-link" href="#1.4-Limitations-and-Scope">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-RL relies on the concept of "state", as input to the policy and value function</p>
+<ul>
+<li>essentially it conveys to the agent some sense of how the environment is</li>
+<li>We will focus mainly on estimating value functions (but you don't need this to solve RL problems)</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="1.5-An-Extetnded-Example:-Tic-Tac-Toe"><strong>1.5 An Extetnded Example: Tic-Tac-Toe</strong><a class="anchor-link" href="#1.5-An-Extetnded-Example:-Tic-Tac-Toe">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-assuming you play against an imperfect player, how can we construct a player which will learn the opponent's imperfections and maximize its chance of winning?</p>
+<ul>
+<li><p>classicial optimization techniques (dynamic programming) require complete specification of opponent, including the probabilities with which the opponent makes each move</p>
+</li>
+<li><p>essentially, we can learn a model of the opponent's behavior from experience to get these probabilities and then apply dynamic programming (many RL methods do this)</p>
+</li>
+<li><p>or, using a value function.</p>
+<ul>
+<li>We would set of a table of numbers, each representing the probabilities of winning from each state of the tic-tac-toe board</li>
+<li>this estimate is the state's value</li>
+<li>set all initial values of the states to 0.5</li>
+<li>then play many games against the opponent, greedily selecting the moves (moving to states with greatest value) and occasionally randomly selecting another move to explore</li>
+<li>then we "back up" value of states so that earlier states are nudged closer in value to later states</li>
+</ul>
+</li>
+</ul>
+$$ V(S_t) \larr V(S_t) + \alpha[V(S_{t+1}) - V(S_t)] $$<p align="center">
+  <img src="../data/tictactoe.png" />
+</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-tic tac toe example is just one</p>
+<ul>
+<li>with RL problems, we don't necessarily need an adversary</li>
+<li>we don't necessarily need discrete time</li>
+<li>we don't necessarily need a finite state space like in tic-tac-toe (in infinite state space games, we might utilize the generalizability of SL)</li>
+<li>it can work even when certain states are hidden</li>
+<li>with tic-tac-toe we were able to look ahead and know the states that would come from moves (this is a model of the game). Even this is not necessary for RL. </li>
+<li>but with respect to opponent, our tic-tac-toe player actually has no model</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="1.6-Summary"><strong>1.6 Summary</strong><a class="anchor-link" href="#1.6-Summary">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-RL is a computational approach to understanding and automating goal-directed learning and decision making</p>
+<ul>
+<li>it distinguishes itself from other computational approaches in its interaction-based learning and the lack of need of direct supervision or model of environment</li>
+<li>its fundamentally based on Markov decision processes</li>
+<li>the concepts of value and value function are key to most RL methods</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="1.7-History-of-RL"><strong>1.7 History of RL</strong><a class="anchor-link" href="#1.7-History-of-RL">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-Early History of RL contains two threads which eventually merged:</p>
+<ul>
+<li>Psychology of animal learning</li>
+<li>Optimal control and dynamic programming</li>
+</ul>
+<p>-They merged around a third thread known as temporal difference methods and modern RL began in 80s</p>
+<p>-Optimal control thread centers around Bellman equation and the class of methods used to solve this equation known as dynamic programming</p>
+<ul>
+<li>Bellman also introduced the discrete stochastic version of this problem known as Markov decision processes</li>
+</ul>
+<p>-trial-and-error learning was first coherently captured b Edward Thorndike</p>
+<ul>
+<li><p>The "Law of Effect": Behaviors which produce a satisfying effect are more likely to occur when the situation presents itself again and behaviors which produce a painful effect are less likely to occur for that situation</p>
+</li>
+<li><p>Later learning automata had an influence on trial-and-error learning (k-armed bandit)</p>
+</li>
+</ul>
+<p>-temporal difference learning has its origins in animal psychology with <em>secondary reinforcers</em></p>
+<ul>
+<li>It was brought together with optimal control with Chris Watkin's Q-learning</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Multi-armed-Bandits"><strong>Multi-armed Bandits</strong><a class="anchor-link" href="#Multi-armed-Bandits">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-The most important difference between RL and SL is that RL <em>evaluates</em> the actions of the bot rather than <em>instructing</em></p>
+<ul>
+<li>SL indicates the correct action to be taken, independent of the action</li>
+<li>RL indicates how good the action was</li>
+</ul>
+<p>-To begin, we study the evaluative aspect of RL in a simplified setting which does not involve learning to act in more than one situation (<em>nonassociative setting</em>)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.1-A-k-armed-Bandit-Problem"><strong>2.1 A <em>k</em>-armed Bandit Problem</strong><a class="anchor-link" href="#2.1-A-k-armed-Bandit-Problem">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-You are faced repeatedly with a choice among <em>k</em> different options, or actions</p>
+<ul>
+<li>After each choice, you receive a numerical reward chosen from a stationary PDF that depends on the action you selected</li>
+<li>Your objective is to maximize the expected total reward over some time period, for example 1000 time steps</li>
+</ul>
+<ul>
+<li>This problem is named after the analogy to the slot machine (the "one-armed bandit"), except that it has k levers</li>
+</ul>
+<p>-Each of the <em>k</em> actions has an expected reward, and we call this the <em>value</em> of the action:</p>
+$$ q_{*}(a) \coloneqq \mathbf{E}[R_{t}|A_{t}=a] $$<p>Where $q_{*}(a)$ is the expected reqward, given that action $a$ is selected. $R_{t}$ is the reward and $A_{t}$ is the action</p>
+<p>-To estimate this, we would need a joint distribution of $R_{t}$ and $A_{t}$</p>
+<p>-If you maintain estimates of the value of actions, then at any time step, there is at least one action whose estimated value is the greatest</p>
+<ul>
+<li>Taking this action would be the <em>greedy</em> action and when you do, we say that you are <em>exploiting</em> you current knowledge of the values of the actions</li>
+<li>If you choice one of the nongreedy actions, we say that you are <em>exploring</em> (this might lead to a greater reward in the long term)</li>
+<li>Balancing exploitation and exploration is a difficult task but leads to a more optimal solution than just exploiting</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.2-Action-value-Methods"><strong>2.2 Action-value Methods</strong><a class="anchor-link" href="#2.2-Action-value-Methods">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-estimate the values of actions and use the estimates to make action selection decisions</p>
+<p>-Simply average the rewards seen when particular action was taken:</p>
+$$ Q_{t}(a) \coloneqq \frac{\text{sum of rewards when $a$ taken prior to t}}{\text{number of times $a$ taken prior to t}} $$$$ Q_{t}(a) = \frac{\sum_{i=1}^{t-1}R_{i}\cdot \bm{1}_{A_i=a}}{\sum_{i=1}^{t-1} \bm{1}_{A_{i}=a}} $$<p>as t goes to infinity, $Q_{t}(a)$ converges to $q_{*}(a)$.</p>
+<p>-This is not necessarily the best way to estimate the value!</p>
+<p>-Simplest action selection rule is to select the action with the highest estimated value (greedy):</p>
+$$A_{t} \coloneqq \underset{a}{\mathrm{argmax}}Q_{t}(a) $$<p>-Slight mod of this is behaving greedy most of the time, but every once in a while, with small probability $\epsilon$, select randomly from all actions</p>
+<ul>
+<li>we call these methods $\epsilon-greedy$ methods</li>
+<li>advantage here is that in the limit of $t \rightarrow \infty$, you sample all of the actions infinitely thus ensuring  $Q_{t}(a)$ converges to $q_{*}(a)$</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.3-The-10-armed-Testbed"><strong>2.3 The 10-armed Testbed</strong><a class="anchor-link" href="#2.3-The-10-armed-Testbed">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-To assess greedy vs $\epsilon-greedy$, we analyze a set of 2000 randomly generated $k$-armed bandit problems with $k=10$</p>
+<p>-The true values, $q_{*}(a)$, were selected from a normal distribution. The reward, $R_{t}, for each action is also a normal distribution but with mean $q<em>{*}(A</em>{t})$</p>
+<p>-For any learning method, we can measure its performance for 1000 steps, and this constitutes 1 run</p>
+<ul>
+<li>then repeat this procedure 2000 times (effectively a different bandit problem each time)</li>
+</ul>
+<p align="center">
+  <img src="../data/10armedtestbed.png" />
+</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-What you then see is that the greedy algorithm performs better initially but plateaus at a lower reward</p>
+<p>-The slight exploration allows discovery of that higher expected reward of 1.5</p>
+<p align="center">
+  <img src="../data/10armedlearningcurves.png" />
+</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-For noisier rewards (more variance), the $\epsilon-greedy$ methods would fare even better than the greedy model</p>
+<p>-In the deterministic case of no variance, the greedy would quickly find the solution</p>
+<ul>
+<li>But if the values of the actions were not stationary, it would be worthwhile to explore to make sure one of the other actions have not changed to become the better one</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.4-Incremental-Implementation"><strong>2.4 Incremental Implementation</strong><a class="anchor-link" href="#2.4-Incremental-Implementation">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-To calculate action values in a computationally efficient manner, we will consider a simple derivation</p>
+<p>-Let $R_{i}$ denote the reward received after the $ith$ selection of <em>this action</em> and let $Q_{n}$ denote the estimate of its action value after having been selected $n-1$ time:</p>
+$$ Q_{n} \coloneqq \frac{R_{1} + R_{2} + ... + R_{n-1}}{n-1} $$<p>-We don't need to perform this computation over and over again</p>
+<p>-It can be shown that, given $Q_{n}$ and the $nth$ reward $R_{n}$:</p>
+$$ Q_{n+1} = Q_{n} + \frac{1}{n}[R_{n} - Q_{n}] $$<p>so you only need memory for $Q_{n}$ and $n$</p>
+<p>-This update rule thats the form that comes up frequently:</p>
+$$ \text{New Estimate} \leftarrow \text{Old Estimate} + \text{Step Size}[\text{Target - Old Estimate}] $$<p>-In this case the target is the nth reward and $\text{Target - Old Estimate}$ is an error estimate</p>
+<p>-Note that the $\text{Step Size}$ gets smaller with increasing actions of this type taken</p>
+<p>-Below is the pseudo code for the bandit algorithm</p>
+<p align="center">
+  <img src="../data/banditpseudo.png" />
+</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.5-Tracking-a--Nonstationary-Problem"><strong>2.5 Tracking a  Nonstationary Problem</strong><a class="anchor-link" href="#2.5-Tracking-a--Nonstationary-Problem">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-When reward probabilities change over time, it makes sense to give more weight to recent rewards</p>
+<p>-It's common to modify the step size parameter to be constant for nonstationary reward pdfs</p>
+<p>-It can be shown that in this case, $Q_{n+1}$ becomes a weighted average of the past rewards:</p>
+$$Q_{n+1} = (1 - \alpha)^{n}Q_{1} + \sum_{i=1}^{n}\alpha(1-\alpha)^{n-i}R_{i} $$<p>-This turns out to be an exponentially weighted average!</p>
+<p>-For the constant $\alpha$ case, the value function estimates actually never converge for large $n$, but this is what we want in nonstationary problems!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.6-Optimistic-Initial-Values"><strong>2.6 Optimistic Initial Values</strong><a class="anchor-link" href="#2.6-Optimistic-Initial-Values">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-The methods above depend on the initial action-value estimates, $Q_{1}(a)</p>
+<ul>
+<li><p>This is known as a <em>biased</em> estimate in statistics</p>
+</li>
+<li><p>For the sample-average method, the bias disappears once all actions have been selected at least once</p>
+</li>
+<li><p>But for consant $\alpha$ they persist</p>
+</li>
+</ul>
+<p>-An initial bias in the value function, lets say 5 in the k-armed bandit problem is overly optimistic</p>
+<ul>
+<li>But this over-optimism causes the algorithm to initially explore as it is disappointed in the rewards it is receiving</li>
+<li>These <em>optimistic initial values</em> are good for encouraging exploration in stationary problems but not so with nonstationary since the exploration is only temporary in the beginning of the run</li>
+<li>In addition, the sample-average technique also represents a bias towards the beginning of time since it weighs all subsequent rewards equally</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.7-Upper-Confidence-Bound-Action-Selection"><strong>2.7 Upper-Confidence-Bound Action Selection</strong><a class="anchor-link" href="#2.7-Upper-Confidence-Bound-Action-Selection">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-In the $\epsilon-greedy$ algorithm, if we could give preference to those actions which have some uncertainty and are close to being maximal</p>
+<p>-you can capture this with the following:</p>
+$$A_{t} \coloneqq \underset{a}{\mathrm{argmax}}[Q_{t}(a) + c\sqrt{\frac{lnt}{N_{t}(a)}}] $$<p>-this <em>upper confidence bound</em> action selection takes into account the uncertainty in the estimate of $a$'s value</p>
+<p>-The quantity being index maxed is essesntially the upper bound of that action's value</p>
+<p>-As $N_{t}(a)$ increases, i.e. you've observed that action more, the uncertainty in it's value decreases</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Finite-Markov-Decision-Processes"><strong>Finite Markov Decision Processes</strong><a class="anchor-link" href="#Finite-Markov-Decision-Processes">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-This essentially is the main problem we try to solve</p>
+<p>-There is evaluative feedback, as with the bandits, but now there is an <em>associative</em> aspect (choosing different actions in different situations)</p>
+<ul>
+<li>Actions influence not just immediate rewards, but also subsequent situations (or states)</li>
+<li>Hence MDPs involve delayed reward and the need to tradeoff immediate and delayed reward</li>
+</ul>
+<p>-With k-armed bandits, we estimated $q_{*}(a)$ of each action $a$, while with MDPs, we estimate $q_{*}(s,a)$ or each action $a$ in each state $s$</p>
+<ul>
+<li>or we estimate the value $v_{*}(s)$ of each state given optimal action selections</li>
+</ul>
+<p>-MDPs are a mathematically idealized form of the RL problem</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.1-The-Agent-Environment-Interface"><strong>3.1 The Agent-Environment Interface</strong><a class="anchor-link" href="#3.1-The-Agent-Environment-Interface">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-The learner and decision maker is called the <em>agent</em></p>
+<p>-The thing it interacts with is called the <em>environment</em></p>
+<p>-The agent and environment interact continually where the agent is selecting actions and the environment is responding to these actions by presenting new situations</p>
+<ul>
+<li>The environment also gives rise to rewards, which the agent seeks to maximize over time with its actions</li>
+</ul>
+<p align="center">
+  <img src="../data/MDP.png" />
+</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-The agent and environment interact at discrete time steps $t=0,1,2,3,...$</p>
+<p>-At each time step, the agent receives a representation of the environment's state, $S_t \in S$ and from that, selects an action, $A_t \in A(s)$</p>
+<ul>
+<li><p>One time step later, the agent receives a reward $R_{t+1} \in R$ and finds itself in a new state $S_{t+1}$</p>
+</li>
+<li><p>The trajectory looks like this:</p>
+<p>$$ S_0, A_0, R_0, S_1, A_1, R_1, S_2, A_2, R_2, ... $$</p>
+</li>
+</ul>
+<p>-In a <em>finite</em> MDP, the sets of states, actions, and rewards ($S, A, R$) all have a finite number of elements</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-In this case, the random variables $R_t$ and $S_t$ have well defined discrete probability distributions dependent only on the preceding state and action:</p>
+$$ p(s',r|s,a) \coloneqq Pr(S_t=s', R_t=r|S_{t-1}=s,A_{t-1}=a) $$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-In a <em>Markov</em> decision process, the probabilities given by $p$ completely characterize the environment's dynamics</p>
+<ul>
+<li><p>The probability of each $S_t$ and $R_t$ only depend on the immediately preceding state and action and not at all on earlier states and actions</p>
+</li>
+<li><p>The state must include all aspects of the past agent-environment that make a difference for the future (<em>Markov property</em>)</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-Can compute the state-transition probabilities:</p>
+$$ p(s'|s,a) \coloneqq Pr(S_t=s'|S_{t-1}=s,A_{t-1}=a) = \sum_{r \in R}p(s',r|s,a) $$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-Can compute the expected rewards for state-action pairs</p>
+$$ r(s,a) \coloneqq \mathbf{E}[R_{t}|S_{t-1}=s,A_{t-1}=a] = \sum_{r \in R}r\sum_{s' \in S}p(s',r|s,a) $$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-The general rule is that whatever cannot be changed by agent is considered part of its environment</p>
+<p>-But we always consider the reward computation to be external to the agent because it defined the task facing the agent and is beyond its ability to change arbitrarily</p>
+<ul>
+<li>agent might know everything of environment (rubik's cube) but still face a difficult RL problem</li>
+<li>The agent-environment boundary represents the limit of the agent's <em>absolute control</em>, not of its knowledge</li>
+</ul>
+<p>-Any problem of goal-directed behavior can be reduced to 3 signals pass back and forth between the agent and the environment:</p>
+<ul>
+<li>one signal represents the choice made by the agent (the actions)</li>
+<li>another signal represents the basis on which the choices are made (the states)</li>
+<li>and the other signal defines the agent's goals (the rewards)</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.2-Goals-and-Rewards"><strong>3.2 Goals and Rewards</strong><a class="anchor-link" href="#3.2-Goals-and-Rewards">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-<em>Reward Hypothesis</em></p>
+<ul>
+<li>All that we mean by goals and purposes is the maximization of the expected value of the cumulative sum of a recieved scalar signal</li>
+</ul>
+<p>-The reward signal is your way of communicating to the robot <em>what</em> you want it to achieve, not <em>how</em> you want it achieved</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.3-Returns-and-Episodes"><strong>3.3 Returns and Episodes</strong><a class="anchor-link" href="#3.3-Returns-and-Episodes">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-We seek to maximize the <em>expected return</em>, where the return, denoted $G_{t}$, is defined as some function of the reward sequence</p>
+<p>-In the simplest case, the return is the sum of the rewards:</p>
+$$ G_{t} \coloneqq R_{t+1} + R_{t+2} + R_{t+3} + ... + R_{T} $$<p>Where $T$ is the final time step. This makes sense in applications where there is a notion of a final time step.</p>
+<p>-When the agent-environment interaction breaks naturally into subsequences, called <em>episodes</em>, such as plays of a game</p>
+<ul>
+<li>each episode ends in a special state called the <em>terminal state</em></li>
+<li>the next episode begins independently of how the previous one ended (<em>episodic tasks</em>)</li>
+<li>Some interactions do not break down into episodes (<em>continuing tasks</em>) (above formulation of return doesn't work then since it blows up)</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-We additionally need the concept of <em>discounting</em>, where the agent tries to select actions so that the sum of the discounted rewards it recieves over the future is maximized:</p>
+$$ G_{t} \coloneqq R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+2} + ... = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1}$$<p></p>
+<p>Where $\gamma$ is the discount rate, ranges from $0\le\gamma\le1$. As $\gamma$ approaches 1, the return objective takes future rewards into account more strongly (it becomes more farsighted)</p>
+<p>-This discounting also makes the infinite sum finite (Geometric series)!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.5-Policies-and-Value-Functions"><strong>3.5 Policies and Value Functions</strong><a class="anchor-link" href="#3.5-Policies-and-Value-Functions">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-All RL algorithms involve estimating <em>value functions</em></p>
+<ul>
+<li><p>these are functions of states (or state-action pairs) that estimate <em>how good</em> it is for the agent to be in a given state (in terms of expected return)</p>
+</li>
+<li><p>the rewards an agent can expect to receive in the future depend on what actions it will take</p>
+<ul>
+<li>therefore, value functions are defined w.r.t. particular ways of acting (policies)</li>
+</ul>
+</li>
+</ul>
+<p>-The <em>value function</em> of a state $s$ under policy $\pi$, denoted $v_{\pi}(s)$ is the expected return when starting in $s$ and following $\pi$ thereafter. For MDPs:</p>
+$$ v_{\pi}(s) \coloneqq \mathbf{E}_{\pi}[G_{t}|S_{t}=s] = \mathbf{E}_{\pi}[\sum_{k=0}^{\infty}\gamma^{k}R_{t+k+1}|S_{t}=s]\text{ for all } s \in S $$<p>We call $v_{\pi}$ the <em>state-value function for policy $\pi$</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-Also, we define the value of taking action $a$ in state $s$ under policy $\pi$, denoted $q_{\pi}(s,a)$ as the expected return starting from $s$, taking the action $a$, and thereafter following policy $\pi$:</p>
+$$ q_{\pi}(s,a) \coloneqq \mathbf{E}_{\pi}[G_{t}|S_{t}=s, A_{t}=a] = \mathbf{E}_{\pi}[\sum_{k=0}^{\infty}\gamma^{k}R_{t+k+1}|S_{t}=s, A_{t}=a] $$<p>and we call $q_{\pi}$ the <em>action value function for policy $\pi$</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-in practice, one can estimate $v_{\pi}$ and $q_{\pi}$ from experience</p>
+<ul>
+<li>if we store averages for each action taken and for each state (Monte Carlo methods)</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-A fundamental property of value functions throughout RL is that they satisfy a recursive relationship</p>
+<p>-For any policy $\pi$ and any state $s$, it can be shown that the following holds between the value of $s$ and the value of its possible successor states:</p>
+$$ v_{\pi}(s) = \sum_{a}\pi(a|s)\sum_{s',r}p(s',r|s,a)[r+\gamma v_{\pi}(s')]\text{ for all } s \in S $$<p>Where $\pi(a|s)$ is the probability that $A_{t}=a$ if $S_{t}=s$ (the policy). The is the <em>Bellman Equation for $v_{\pi}$</em>.</p>
+<p>-The Bellman equation expresses a relationship between the value of a state and the values of its successor states</p>
+<ul>
+<li><p>The Bellman equation averages over all the possibilities, weighting each by its probability of occurring</p>
+</li>
+<li><p><strong>It states that the value of the start state must equal the discounted value of the expected next state, plus the reward expected along the way</strong></p>
+</li>
+</ul>
+<p align="center">
+  <img src="../data/backup.png" />
+</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.6-Optimal-Policies-and-Optimal-Value-Functions"><strong>3.6 Optimal Policies and Optimal Value Functions</strong><a class="anchor-link" href="#3.6-Optimal-Policies-and-Optimal-Value-Functions">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-Solving an RL task means finding a policy which achieves a lot of reward over the long run</p>
+<p>-The optimal policies have value functions greater than the other policies</p>
+<ul>
+<li>They share the same state-value function, called the <em>optimal state-value function</em></li>
+</ul>
+$$ v_{*}(s) \coloneqq \max_{\pi}v_{\pi}(s) \text{ for all s} \in \text{S} $$<ul>
+<li>They also share the same <em>optimal action-value function</em></li>
+</ul>
+$$ q_{*}(s,a) \coloneqq \max_{\pi}q_{\pi}(s,a) \text{ for all s} \in \text{S} \text{ and } a \in A(s)$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-We can then show that the <em>Bellman optimality equation</em> is:</p>
+$$ v_{*}(s) = \max_{a}\sum_{s',r}p(s',r|s,a)[r+\gamma v_{*}(s')] $$<p>-For finite MDPs, the Bellman optimality equation has a unique solution</p>
+<ul>
+<li><p>its a actually a system of $n$ nonlinear equations in $n$ unknowns</p>
+</li>
+<li><p>you just need the transition probabilities, and the rewards associated with those transitions</p>
+</li>
+</ul>
+<p>-One can easily select the optimal policy based off a <em>greedy</em> selection of the action which maximizes the optimality equation</p>
+<ul>
+<li><p>term greedy is used in CS to describe selections of alternatives based only off of local considerations</p>
+</li>
+<li><p>greedy in RL describes selecting actions only based on short term consequences</p>
+</li>
+<li><p>but if you greedily use $v_{*}$ you're fine because the quantity already takes into account the long term</p>
+</li>
+<li><p>using $q_{*}$ is even easier because you don't even need to do the one-step-ahead search. Just find the action which maximizes it</p>
+</li>
+</ul>
+<p>-The issue with explicitly solving the Bellman optimality equations is that it is akin to an exhaustive search and is rarely useful</p>
+<ul>
+<li><p>we need to know the dynamics of the environment to use Bellman</p>
+</li>
+<li><p>we need plenty of computational resources</p>
+</li>
+<li><p>we need the Markov property</p>
+</li>
+</ul>
+<p>-In practice, some combinatination of the above 3 assumptions are not met</p>
+<ul>
+<li>e.g. backgammon has $10^20$ states and would take a modern computer thousands of years to solve the Bellman equation for $v_{*}$</li>
+</ul>
+<p>-Many RL methods can be seen as approximating solving the Bellman optimality equation</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.7-Optimality-and-Approximation"><strong>3.7 Optimality and Approximation</strong><a class="anchor-link" href="#3.7-Optimality-and-Approximation">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-The optimal policies typically can only be generation with extreme computational cost</p>
+<ul>
+<li>A critical aspect of the problem facing the agent is always the computational power available to it</li>
+</ul>
+<p>-Also, a large amount of memory is required to build up approximations of value functions, policies and models</p>
+<ul>
+<li>Sometimes the state space is so large, we cannot fit this information into a table</li>
+</ul>
+<p>-So we do approximations and approximations in the sense that we might be ok with suboptimal decisions in low probability state spaces</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.8-Summary"><strong>3.8 Summary</strong><a class="anchor-link" href="#3.8-Summary">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-RL is about learning from interaction how to behave in order to achieve a goal</p>
+<p>-The RL <em>agent</em> and its <em>environment</em> interact over discrete time steps</p>
+<p>-The specification of their interface defines a task:</p>
+<ul>
+<li>The <em>actions</em> are the choices made by the agent</li>
+<li>The <em>states</em> are the basis for taking the actions</li>
+<li>The <em>rewards</em> are the basis for evaluating the choices</li>
+</ul>
+<p>-A <em>policy</em> is a stochastic rule by which the agent selects actions as a function of states</p>
+<p>-When this problem described above is formulated with well defined transition probabilities, it is a <em>Markov Decision Process</em> (MDP)</p>
+<ul>
+<li><p>A <em>finite</em> MDP is where you have a finite state, action and reward set</p>
+</li>
+<li><p>much of current RL theory is restricted to finite MLPs</p>
+</li>
+</ul>
+<p>-The <em>return</em> is the function of future rewards</p>
+<ul>
+<li><p>undiscounted version is appropriate for episodic tasks</p>
+</li>
+<li><p>discounted version appropriate for continuing tasks</p>
+</li>
+</ul>
+<p>-A policy's <em>value functions</em> assigns to each state, or state-action pair, the expected return from that state, or state-action pair, given that the agent uses the policy</p>
+<ul>
+<li><p>The <em>optimal value functions</em> assign to each state, or state-action pair, the largest expected return achievable by any policy</p>
+</li>
+<li><p>A policy whose values function are optimal is an <em>optimal policy</em></p>
+</li>
+<li><p>Can solve the <em>Bellman optimality equations</em> for the optimal value functions, from which an optimal policy can be determined with ease</p>
+</li>
+</ul>
+<p>-Limitations on computations and memory mean we must approximate</p>
+<ul>
+<li>solving Bellman is an ideal!</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>Andrew Barto in video with Sutton: "RL is memorized context-sensitive search"</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Dynamic-Programming"><strong>Dynamic Programming</strong><a class="anchor-link" href="#Dynamic-Programming">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li><p>Dynamic programming refers to a collection of algorithms that can be used to <strong>compute optimal policies</strong> given a perfect model of the environment like with MDPs</p>
+</li>
+<li><p>Classical DP algs are of limited utility in RL because of assumption of perfect model and computational expense</p>
+<ul>
+<li>but its an important theoretical foundation for understanding later modern methods</li>
+</ul>
+</li>
+<li><p>Key idea of DP, and of RL generally, is the use of value functions to organize and structure the search for good policies</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="4.1-Policy-Evaluation-(Prediction)"><strong>4.1 Policy Evaluation (Prediction)</strong><a class="anchor-link" href="#4.1-Policy-Evaluation-(Prediction)">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-iterative policy evaluation is when you use the Bellman equations to update the value functions at each step</p>
+<ul>
+<li>in theory, it should converge to the optimal value function</li>
+</ul>
+<p align="center">
+  <img src="../data/iterpoleval.png" />
+</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="4.2-Policy-Improvement"><strong>4.2 Policy Improvement</strong><a class="anchor-link" href="#4.2-Policy-Improvement">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-we compute the value function for a policy to help find better policies</p>
+<p>-how do we know when to diverge from policy?</p>
+<p>-one can consider the action-value function, where you select an action then follow the policy</p>
+<ul>
+<li><p>key idea is whether $q_{\pi}(s,a)$ is greater than $v_{\pi}(s)$</p>
+<ul>
+<li>then we would know to always take action $a$ when $s$ is encountered, and this would be a new policy</li>
+</ul>
+</li>
+<li><p>Gen any pair of deterministic policies $\pi$ and $\pi'$, the <em>policy improvement theorem</em> states that if:</p>
+</li>
+</ul>
+$$q_{\pi}(s,\pi'(s)) \ge v_{\pi}(s)$$<p>Then $\pi'$ must be as good as or better than $\pi$. It must obtain greater than or equal expected return from all states:</p>
+$$v_{\pi'} \ge v_{\pi}(s)$$<ul>
+<li><p>Its a natural extension to consider changes to all states and to all possible actions,selecting at each state the action which maximizes the action-value function.</p>
+</li>
+<li><p>The <em>greed</em> policy, $\pi'$ is then:</p>
+</li>
+</ul>
+$$ \pi'(s) \coloneqq \argmax_{a}q_{\pi}(s,a) $$<p>The process of making a new policy that improves on the original policy, by making it greedy w.r.t. to value function of original policy is called <em>policy improvement</em></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="4.3-Policy-Iteration"><strong>4.3 Policy Iteration</strong><a class="anchor-link" href="#4.3-Policy-Iteration">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-once a policy $\pi$ has been improved using $v_{\pi}$ to yield a better policy $\pi'$, we can then compute $v_{\pi'}$ and improve it again to yield an even better $\pi''$</p>
+<p align="center">
+  <img src="../data/politer.png" />
+</p><p>where $E$ is the policy evaluation and $I$ is the policy improvement</p>
+<p>-Since the finite MDP has only a finite number of policies, this process must converge to an optimal policy and optimal value function in a finite number of iterations</p>
+<p align="center">
+  <img src="../data/politeralg.png" />
+</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="4.4-Value-Iteration"><strong>4.4 Value Iteration</strong><a class="anchor-link" href="#4.4-Value-Iteration">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-stopping policy evaluation after just one sweep is known as <em>value iteration</em></p>
+<p align="center">
+  <img src="../data/valueiter.png" />
+</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-Kelly Criterion example!</p>
+<p align="center">
+  <img src="../data/kelly_rl.png" />
+</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="4.6-Generalized-Policy-Iteration"><strong>4.6 Generalized Policy Iteration</strong><a class="anchor-link" href="#4.6-Generalized-Policy-Iteration">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-<em>generalized policy iteration</em> refers to simply letting policy evaluation and policy improvement interact, independent of the granularity of the two processes</p>
+<ul>
+<li>they can be viewed as both competing and interacting</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="4.7-Efficiency-of-Dynamic-Programming"><strong>4.7 Efficiency of Dynamic Programming</strong><a class="anchor-link" href="#4.7-Efficiency-of-Dynamic-Programming">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>-DP might not be practical for very large problems but it finds an optimal policy in polynomial time</p>
+<ul>
+<li><p>exponentially faster than any direct search</p>
+</li>
+<li><p>sometimes LP might be better but as the number of states increases, DP is the only feasible way</p>
+</li>
+</ul>
+<ul>
+<li><p>DP thought to be of limited applicability because of <em>curse of dimensionality</em> (number of states grows exponentially with the number of state variables)</p>
+<ul>
+<li>but these are inherent difficulties of the problem, not of DP as a solution method</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+</div>
+</div>
+</div>
+ 
+
+
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: 'center'," +
+        "    displayIndent: '0em'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['$','$'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        " linebreaks: { automatic: true, width: '95% container' }, " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+        "    } " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+                </article>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="https://getpelican.com/">Pelican</a></li>
+                            <li><a href="https://www.python.org/">Python.org</a></li>
+                            <li><a href="https://palletsprojects.com/p/jinja/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
