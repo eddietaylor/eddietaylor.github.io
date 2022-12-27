@@ -36,3 +36,5 @@ from pelican_jupyter import markup as nb_markup
 PLUGINS = [nb_markup]
 
 IGNORE_FILES = [".ipynb_checkpoints"]
+
+THEME = 'C://Users/208766/pelican-themes/cebong'

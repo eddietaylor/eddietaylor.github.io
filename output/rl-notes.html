@@ -1,42 +1,52 @@
 <!DOCTYPE html>
-<html lang="english">
+<html lang="en">
 <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="generator" content="Pelican" />
         <title>Reinforcement Learning Notes</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
-        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="ET Jupyter Data Science Blog Atom Feed" />
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        <meta name="keywords" content="rl python dp, posts" />
+        <meta name="category" content="posts" />
         <meta name="description" content="My first post. Check it out yo!" />
+        <meta name="author" content="Ed Taylor" />
+        <meta name="copyright" content="Ed Taylor" />
+        <meta name="date" content="2022-12-20 00:00:00-06:00">
+        <meta name="robots" content="index,follow">
+
+        <link rel="stylesheet" href="https://eddietaylor.github.io/theme/css/main.css" type="text/css" />
+
+        <!--[if IE]>
+                <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+        <!--[if lte IE 7]>
+                <link rel="stylesheet" type="text/css" media="all" href="https://eddietaylor.github.io/css/ie.css"/>
+                <script src="https://eddietaylor.github.io/js/IE8.js" type="text/javascript"></script><![endif]-->
+
+        <!--[if lt IE 7]>
+                <link rel="stylesheet" type="text/css" media="all" href="https://eddietaylor.github.io/css/ie6.css"/><![endif]-->
+
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">ET Jupyter Data Science Blog</a></h1>
-                <nav><ul>
-                    <li class="active"><a href="/category/posts.html">posts</a></li>
-                </ul></nav>
+                <h1><a href="https://eddietaylor.github.io">ET Jupyter Data Science Blog </a></h1>
+                <nav>
+                    <a href="https://eddietaylor.github.io/category/posts.html">posts</a>&nbsp;
+                </nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/rl-notes.html" rel="bookmark"
+        <a href="rl-notes.html" rel="bookmark"
            title="Permalink to Reinforcement Learning Notes">Reinforcement Learning Notes</a></h1>
     </header>
 
     <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2022-12-20T00:00:00-06:00">
-                Published: Tue 20 December 2022
+                Tue 20 December 2022
         </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="/author/ed-taylor.html">Ed Taylor</a>
-        </address>
-<p>In <a href="/category/posts.html">posts</a>.</p>
-<p>tags: <a href="/tag/rl-python-dp.html">rl python dp</a> </p>
-</footer><!-- /.post-info -->      <style type="text/css">/*!
+<p>tags: <a href="https://eddietaylor.github.io/tag/rl-python-dp.html">rl python dp</a></p></footer><!-- /.post-info -->      <style type="text/css">/*!
 *
 * IPython notebook
 *
@@ -1304,24 +1314,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </li>
 </ul>
 $$ V(S_t) \larr V(S_t) + \alpha[V(S_{t+1}) - V(S_t)] $$<p align="center">
-  <img src="../data/tictactoe.png" />
+  <img src="./images/tictactoe.png" />
 </p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>-tic tac toe example is just one</p>
-<ul>
-<li>with RL problems, we don't necessarily need an adversary</li>
-<li>we don't necessarily need discrete time</li>
-<li>we don't necessarily need a finite state space like in tic-tac-toe (in infinite state space games, we might utilize the generalizability of SL)</li>
-<li>it can work even when certain states are hidden</li>
-<li>with tic-tac-toe we were able to look ahead and know the states that would come from moves (this is a model of the game). Even this is not necessary for RL. </li>
-<li>but with respect to opponent, our tic-tac-toe player actually has no model</li>
-</ul>
-
 </div>
 </div>
 </div>
@@ -1472,7 +1466,7 @@ $$A_{t} \coloneqq \underset{a}{\mathrm{argmax}}Q_{t}(a) $$<p>-Slight mod of this
 <li>then repeat this procedure 2000 times (effectively a different bandit problem each time)</li>
 </ul>
 <p align="center">
-  <img src="../data/10armedtestbed.png" />
+  <img src="./images/10armedtestbed.png" />
 </p>
 </div>
 </div>
@@ -1483,7 +1477,7 @@ $$A_{t} \coloneqq \underset{a}{\mathrm{argmax}}Q_{t}(a) $$<p>-Slight mod of this
 <p>-What you then see is that the greedy algorithm performs better initially but plateaus at a lower reward</p>
 <p>-The slight exploration allows discovery of that higher expected reward of 1.5</p>
 <p align="center">
-  <img src="../data/10armedlearningcurves.png" />
+  <img src="./images/10armedlearningcurves.png" />
 </p>
 </div>
 </div>
@@ -1520,7 +1514,7 @@ $$ \text{New Estimate} \leftarrow \text{Old Estimate} + \text{Step Size}[\text{T
 <p>-Note that the $\text{Step Size}$ gets smaller with increasing actions of this type taken</p>
 <p>-Below is the pseudo code for the bandit algorithm</p>
 <p align="center">
-  <img src="../data/banditpseudo.png" />
+  <img src="./images/banditpseudo.png" />
 </p>
 </div>
 </div>
@@ -1634,7 +1628,7 @@ $$A_{t} \coloneqq \underset{a}{\mathrm{argmax}}[Q_{t}(a) + c\sqrt{\frac{lnt}{N_{
 <li>The environment also gives rise to rewards, which the agent seeks to maximize over time with its actions</li>
 </ul>
 <p align="center">
-  <img src="../data/MDP.png" />
+  <img src="./images/MDP.png" />
 </p>
 </div>
 </div>
@@ -1826,7 +1820,7 @@ $$ v_{\pi}(s) = \sum_{a}\pi(a|s)\sum_{s',r}p(s',r|s,a)[r+\gamma v_{\pi}(s')]\tex
 </li>
 </ul>
 <p align="center">
-  <img src="../data/backup.png" />
+  <img src="./images/backup.png" />
 </p>
 </div>
 </div>
@@ -2016,7 +2010,7 @@ $$ v_{*}(s) = \max_{a}\sum_{s',r}p(s',r|s,a)[r+\gamma v_{*}(s')] $$<p>-For finit
 <li>in theory, it should converge to the optimal value function</li>
 </ul>
 <p align="center">
-  <img src="../data/iterpoleval.png" />
+  <img src="./images/iterpoleval.png" />
 </p>
 </div>
 </div>
@@ -2067,11 +2061,11 @@ $$ \pi'(s) \coloneqq \argmax_{a}q_{\pi}(s,a) $$<p>The process of making a new po
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>-once a policy $\pi$ has been improved using $v_{\pi}$ to yield a better policy $\pi'$, we can then compute $v_{\pi'}$ and improve it again to yield an even better $\pi''$</p>
 <p align="center">
-  <img src="../data/politer.png" />
+  <img src="./images/politer.png" />
 </p><p>where $E$ is the policy evaluation and $I$ is the policy improvement</p>
 <p>-Since the finite MDP has only a finite number of policies, this process must converge to an optimal policy and optimal value function in a finite number of iterations</p>
 <p align="center">
-  <img src="../data/politeralg.png" />
+  <img src="./images/politeralg.png" />
 </p>
 </div>
 </div>
@@ -2088,7 +2082,7 @@ $$ \pi'(s) \coloneqq \argmax_{a}q_{\pi}(s,a) $$<p>The process of making a new po
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>-stopping policy evaluation after just one sweep is known as <em>value iteration</em></p>
 <p align="center">
-  <img src="../data/valueiter.png" />
+  <img src="./images/valueiter.png" />
 </p>
 </div>
 </div>
@@ -2098,7 +2092,7 @@ $$ \pi'(s) \coloneqq \argmax_{a}q_{\pi}(s,a) $$<p>The process of making a new po
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>-Kelly Criterion example!</p>
 <p align="center">
-  <img src="../data/kelly_rl.png" />
+  <img src="./images/kelly_rl.png" />
 </p>
 </div>
 </div>
@@ -2194,7 +2188,7 @@ $$ \pi'(s) \coloneqq \argmax_{a}q_{\pi}(s,a) $$<p>The process of making a new po
 </section>
         <section id="extras" class="body">
                 <div class="blogroll">
-                        <h2>links</h2>
+                        <h2>blogroll</h2>
                         <ul>
                             <li><a href="https://getpelican.com/">Pelican</a></li>
                             <li><a href="https://www.python.org/">Python.org</a></li>
@@ -2205,7 +2199,7 @@ $$ \pi'(s) \coloneqq \argmax_{a}q_{\pi}(s,a) $$<p>The process of making a new po
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="https://eddietaylor.github.io/" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="#">You can add links in your config file</a></li>
                             <li><a href="#">Another social link</a></li>
@@ -2215,10 +2209,9 @@ $$ \pi'(s) \coloneqq \argmax_{a}q_{\pi}(s,a) $$<p>The process of making a new po
 
         <footer id="contentinfo" class="body">
                 <address id="about" class="vcard body">
-                Proudly powered by <a href="https://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>.
+                     Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="https://www.python.org/">Python</a>. Theme is using <a href="https://github.com/getpelican/pelican-themes" target="_blank">cebong</a>.
                 </address><!-- /#about -->
 
-                <p>The theme is by <a href="https://www.smashingmagazine.com/2009/08/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
 </body>
