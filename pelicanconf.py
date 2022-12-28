@@ -1,5 +1,5 @@
 AUTHOR = 'Ed Taylor, Ph.D.'
-SITENAME = "ET Jupyter Data Science Blog"
+SITENAME = "The Data Scientist's Odyssey"
 #SITEURL = 'https://eddietaylor.github.io'
 
 PATH = 'content'
@@ -15,7 +15,10 @@ DISPLAY_PAGES_ON_MENU = True
 SITESUBTITLE = "The organized chaos of all things data science, machine learning, and social science"
 BACKDROP_IMAGE = '/images/aurora.jpg'
 PAGINATED_DIRECT_TEMPLATES = ('categories', 'archives')
-
+PROFILE_IMAGE = '/images/ET.jpg'
+FAVICON = '/images/ET.jpg'
+SITE_DESCRIPTION = 'Hello! Names Eddie. I finished my PhD in experimental fusion physics in 2019 and have been working as an operations research scientist for a few years. I enjoy all things science and hope to understand my world better by reading the best sources and summarizing the information to the best of my ability for all to enjoy. I hope you enjoy my blog!'
+SOCIAL = (('linkedin', 'https://www.linkedin.com/in/edward-taylor-ph-d-330396159/'),('github', 'https://www.github.com/eddietaylor'), ('twitter', 'https://www.twitter.com/eddiedatadoc'))
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
@@ -30,8 +33,8 @@ LINKS = (('Pelican', 'https://getpelican.com/'),
          ('You can modify those links in your config file', '#'),)
 
 # Social widget
-SOCIAL = (('You can add links in your config file', '#'),
-          ('Another social link', '#'),)
+# SOCIAL = (('You can add links in your config file', '#'),
+#           ('Another social link', '#'),)
 
 #DEFAULT_PAGINATION = 10
 
