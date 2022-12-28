@@ -1,12 +1,20 @@
 AUTHOR = 'Ed Taylor, Ph.D.'
 SITENAME = "ET Jupyter Data Science Blog"
-SITEURL = 'https://eddietaylor.github.io'
+#SITEURL = 'https://eddietaylor.github.io'
 
 PATH = 'content'
+STATIC_PATHS = ['images', 'pages']
 
 TIMEZONE = 'America/Chicago'
 
-DEFAULT_LANG = 'English'
+DEFAULT_LANG = 'en'
+
+DISPLAY_PAGES_ON_MENU = True
+
+# backdrop options
+SITESUBTITLE = "The organized chaos of all things data science, machine learning, and social science"
+BACKDROP_IMAGE = '/images/aurora.jpg'
+PAGINATED_DIRECT_TEMPLATES = ('categories', 'archives')
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
@@ -25,7 +33,7 @@ LINKS = (('Pelican', 'https://getpelican.com/'),
 SOCIAL = (('You can add links in your config file', '#'),
           ('Another social link', '#'),)
 
-DEFAULT_PAGINATION = 10
+#DEFAULT_PAGINATION = 10
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
@@ -37,4 +45,4 @@ PLUGINS = [nb_markup]
 
 IGNORE_FILES = [".ipynb_checkpoints"]
 
-THEME = 'C://Users/208766/pelican-themes/cebong'
+THEME = 'C://Users/208766/pelican-themes/backdrop'
