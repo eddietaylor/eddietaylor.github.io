@@ -6,10 +6,10 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="author" content="Ed Taylor, Ph.D." />
-        <title>What is Reinforcement Learning?</title>
+        <title>K-Armed Bandits: The Canonical RL Problem</title>
         
-<meta name="description" content="&lt;p&gt;Key RL concepts and history&lt;/p&gt;" />
-<meta name="keywords" content=" rl dp history  "/>
+<meta name="description" content="&lt;p&gt;The main toy problem behind reinforcement learning&lt;/p&gt;" />
+<meta name="keywords" content=" rl python dp  "/>
 
         <!--[if !IE 7]>
         <style type="text/css">
@@ -53,16 +53,16 @@
                 <div id="contents">
 <div class="row">
     <div class="small-12 columns article">
-        <h2>What is Reinforcement Learning?</h2>
+        <h2>K-Armed Bandits: The Canonical RL Problem</h2>
         <div class="row info-bar" style="margin-left:0rem;margin-bottom:6px;">
     <div class="small-12 columns">
         <ul class="inline-list">
-            <li><span><i class="fa fa-calendar"></i>&nbsp; Tue 27 December 2022</span></li>
+            <li><span><i class="fa fa-calendar"></i>&nbsp; Fri 30 December 2022</span></li>
             <li><span><i class="fa fa-folder-open"></i>&nbsp; <a href="/category/reinforcement-learning.html">Reinforcement Learning</a></span></li>
             <li>
                 <span>
                     <i class="fa fa-tags"></i>&nbsp;
-                    <a href="/tag/rl-dp-history.html"><span class="label">rl dp history</span></a>
+                    <a href="/tag/rl-python-dp.html"><span class="label">rl python dp</span></a>
                 </span>
             </li>
         </ul>
@@ -1189,8 +1189,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <figure>
-  <center><img style='height: 80%; width: 80%; object-fit: contain' src="../images/terminator.jpg" /></center>
-  <center><figcaption>Reinforcement learning is the primary way by which we have begun training robots</figcaption></center>
+  <center><img style='height: 80%; width: 80%; object-fit: contain' src="../images/slot_machine.JPG" /></center>
+  <center><figcaption>The k-armed bandit problem is as if you were playing multiple slot machines at once</figcaption></center>
 </figure>
 </div>
 </div>
@@ -1198,43 +1198,34 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Reinforcement learning (RL) is a powerful tool for building machine learning models that learn from interaction and are able to achieve specific goals. It differs from other types of machine learning, such as supervised learning and unsupervised learning, in that it does not require charted territory (labeled examples) and is not trying to find representations in the data (unsurpervised learning). Instead, the learning agent/bot takes actions and receives rewards or punishments as feedback, allowing it to learn which actions lead to the best outcomes and maximize the overall reward it receives. Formally, RL uses ideas from dynamical systems theory, specifically, "incompletely-known Markov decision processes".</p>
-<p>An RL system consists of an agent and its environment, where an agent is anything which percieves its environment and autonomously takes actions. In an RL system, there are four main elements: a <strong>policy</strong>, a <strong>reward</strong> signal, a <strong>value function</strong>, and a <strong>model</strong> of the environment (see below). The policy defines the agent's behavior and maps perceived states of the environment to actions to be taken (<em>associations</em> in psychology and the basis for human learning). The reward signal is the immediate goal of the RL system and is used to alter the policy. The value function specifies the total amount of reward that can be expected in the long-term, while the model of the environment allows the agent to make predictions about how the environment will behave based on a given state and action. It's important to note that when making and evaluating decisions, we use values since they provide the most reward to us over time.</p>
+<p>In reinforcement learning (RL), the primary distinction between RL and supervised learning (SL) is that RL <em>evaluates</em> the actions of the bot rather than <em>instructing</em> it. SL simply indicates the correct action to be taken, regardless of the action taken, while RL indicates how good the action was. To study the evaluative aspect of RL, we will consider a simplified setting called the k-armed bandit problem.</p>
+<p>In this problem, you are faced repeatedly with a choice among k different actions. After each choice, you receive a numerical reward chosen from a stationary probability density function that depends on the action you selected. Your goal is to maximize the expected total reward over a specified time period, such as 1000 time steps.</p>
+<p>The problem is named after the analogy to a slot machine (the "one-armed bandit"), except that it has k levers. Each action has an expected reward, referred to as its <strong>value</strong>. To estimate this value, we would need a joint distribution of the reward and the action.</p>
+$$ q_{*}(a) \coloneqq \mathbf{E}[R_{t}|A_{t}=a] $$<p>Where $q_{*}(a)$ is the expected reqward, given that action $a$ is selected. $R_{t}$ is the reward and $A_{t}$ is the action taken at time $t$. The subscript $*$ indicates that this is the true value, which is unknown to the agent but it is the value we are trying to estimate.</p>
+<p>One way to estimate the values of actions is to average the rewards seen when a particular action was taken. This is known as an <strong>action-value method</strong>.</p>
+$$ Q_{t}(a) \coloneqq \frac{\text{sum of rewards when $a$ taken prior to t}}{\text{number of times $a$ taken prior to t}} $$<p>However, this is not necessarily the best way to estimate the value. The simplest action selection rule is to choose the action with the highest estimated value, referred to as a greedy action. However, it is often beneficial to also explore non-greedy actions by selecting a random action with a small probability, known as an epsilon-greedy method. This ensures that all actions are sampled an infinite number of times, allowing the estimate of the value to converge to the true value.</p>
+<p>To compare the performance of greedy and epsilon-greedy methods, we will analyze a set of 2000 randomly generated k-armed bandit problems with k=10. The true values of the actions will be selected from a normal distribution, and the reward for each action will also be a normal distribution with a mean equal to the true value of the action. We will measure the performance of a learning method over 1000 steps, referred to as one run, and repeat this process 2000 times to effectively evaluate different bandit problems.</p>
+<p>In the case of noisier rewards, the epsilon-greedy method performed better than the greedy method. However, when the rewards were less noisy, the greedy method performed just as well as the epsilon-greedy method. Overall, the epsilon-greedy method seemed to be the more robust choice, performing well in both noisy and less noisy environments. It is important to carefully consider the trade-off between exploration and exploitation in RL to achieve optimal performance.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p align="center">
-  <center><img style='height: 100%; width: 100%; object-fit: contain' src="../images/MDP.PNG" /></center>
-</p><!-- #![MDP]({static}/images/MDP.PNG) -->
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span>
+</pre></div>
+
+    </div>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>One challenge of RL is the trade-off between exploration and exploitation. In order to maximize reward, the agent must exploit past behaviors that it has deemed rewarding. However, in order to find those behaviors in the first place, it must also explore and potentially lose reward. This exploration-exploitation dilemma remains an open area of research. However, significant progress has been made in value estimation, which is critical for solving RL problems, over the past 60 years. This progress has been driven by a shift in AI research towards the discovery of general principles rather than rule-based approaches.</p>
-<p>RL has a wide range of applications, including building agents that can learn to optimize their performance in complex environments and tasks. For example, an RL agent could be used to build a learning player that can maximize its chances of winning against an imperfect opponent in a game such as tic-tac-toe. Classical optimization techniques, like dynamic programming, require a complete specification of the opponent's behavior, including the probabilities with which they make each move. RL methods can learn a model of the opponent's behavior from experience and apply dynamic programming, or use a value function to estimate the probabilities of winning from each state in the game. RL problems do not necessarily require an adversary, discrete time, or a finite state space, and can even work when certain states are hidden. However, a model of the environment can be useful in certain cases, such as in games with an infinite state space or when the agent is able to look ahead and know the states that will result from certain actions.</p>
 
 </div>
-</div>
-</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p align="center">
-  <center><img src="../images/thorndike.png" /></center>
-</p><!-- ![thorndike]({static}../images/thorndike.png) -->
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The history of RL can be traced back to two threads that eventually merged: the psychology of animal learning and optimal control and dynamic programming. The former thread centers around the "Law of Effect" proposed by Edward Thorndike, which states that behaviors that produce a satisfying effect are more likely to occur in similar situations, while behaviors that produce a painful effect are less likely to occur. The latter thread involves the Bellman equation and the class of methods used to solve it, known as dynamic programming. The concept of temporal difference learning, which has its origins in animal psychology, was brought together with optimal control in the development of Q-learning. Modern RL emerged in the 1980s with the convergence of these threads.</p>
 
 </div>
 </div>
