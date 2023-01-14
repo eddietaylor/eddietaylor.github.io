@@ -1,5 +1,7 @@
 # Data Science Website Development and Deployment
 
+Instructions on getting the environment set up and publishing your first site content.
+
 ## Getting Up and Running with Development
 
 1.) Clone the repo if you're collaborating with Eddie on his DS website. Otherwise, within a local folder, create a virtual environment with (in this case named blog_env):
@@ -97,6 +99,8 @@ Essentially a Github page will display whatever HTML files are pushed up to the 
 
 3.) Edit ```SITEURL``` in ```publishconf.py``` so that it is set to https://username.github.io where ```username``` is your Github username
 
+Note: see https://docs.github.com/en/pages/quickstart
+
 ## Commiting and Deploying
 
 1.) Always commit your changes to a development branch. If you're creating your own website, run:
@@ -125,3 +129,23 @@ foo@bar:~$ git push origin main
 Rinse and repeat when you make any changes with ```pelican content```, ```pelican -l``` to see changes in a local browser, ```ghp-import output -b main```, and ```git push origin main```
 
 You are ready to start scaling your website with more content!!!
+
+5.) Choosing a theme. Clone pelican-themes to your local machine with ```git clone --recursive https://github.com/getpelican/pelican-themes ~/pelican-themes```. Choose a theme from there and simplye include its location in the pelican settings file with one line:
+
+```python
+THEME = "/home/user/pelican-themes/theme-name"
+```
+
+Note: See https://github.com/getpelican/pelican-themes for more information
+
+### Sources
+
+https://www.dataquest.io/blog/how-to-setup-a-data-science-blog/
+
+https://github.com/danielfrg/pelican-jupyter
+
+https://docs.github.com/en/pages/quickstart
+
+https://docs.getpelican.com/en/3.6.3/publish.html
+
+https://github.com/getpelican/pelican-themes
