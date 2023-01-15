@@ -44,7 +44,8 @@ LINKS = (('Pelican', 'https://getpelican.com/'),
 MARKUP = ("md", "ipynb")
 
 from pelican_jupyter import markup as nb_markup
-PLUGINS = [nb_markup]
+PLUGIN_PATHS=['./plugins']
+PLUGINS = [nb_markup, 'render_math']
 
 IGNORE_FILES = [".ipynb_checkpoints"]
 
