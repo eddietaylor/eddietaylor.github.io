@@ -1190,9 +1190,219 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Probability distributions are mathematical functions that describe the likelihood of different outcomes in a random event. In statistics, there are three main types of probability distributions: marginal, joint, and conditional. Each type describes a different aspect of the probability of a certain outcome or set of outcomes.</p>
+<p>Let's intertwine an example as we form our analytical definitions. Suppose we took a survey of people every year from 2015-2022 and determined an aggregate top 500 classic rock songs. We have such a dataset from kaggle (<a href="https://www.kaggle.com/datasets/juliotorniero/classic-rock-top-500-songs">https://www.kaggle.com/datasets/juliotorniero/classic-rock-top-500-songs</a>) and can load it into a pandas dataframe. Lets do a probability analysis on the year and probability of a certain genre being in the top 500.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/classic_rock_playlist.csv&quot;</span><span class="p">)</span>
+<span class="c1"># lets grab the genre and the years</span>
+<span class="n">data1</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;Genre&#39;</span><span class="p">,</span><span class="s1">&#39;2022&#39;</span><span class="p">,</span><span class="s1">&#39;2021&#39;</span><span class="p">,</span><span class="s1">&#39;2020&#39;</span><span class="p">,</span><span class="s1">&#39;2019&#39;</span><span class="p">,</span><span class="s1">&#39;2018&#39;</span><span class="p">,</span><span class="s1">&#39;2017&#39;</span><span class="p">,</span><span class="s1">&#39;2016&#39;</span><span class="p">,</span><span class="s1">&#39;2015&#39;</span><span class="p">]]</span>
+<span class="c1"># lets add up all the times each genre made it into the top 500</span>
+<span class="n">data2</span> <span class="o">=</span> <span class="n">data1</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Genre&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">data2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[19]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>2022</th>
+      <th>2021</th>
+      <th>2020</th>
+      <th>2019</th>
+      <th>2018</th>
+      <th>2017</th>
+      <th>2016</th>
+      <th>2015</th>
+    </tr>
+    <tr>
+      <th>Genre</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A Cappella</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Acoustic Rock</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Alternative Metal</th>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Alternative Rock</th>
+      <td>33</td>
+      <td>18</td>
+      <td>14</td>
+      <td>15</td>
+      <td>16</td>
+      <td>15</td>
+      <td>7</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>Arena Rock</th>
+      <td>3</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>Symphonic Rock</th>
+      <td>2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>Synth Rock</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Synthpop</th>
+      <td>6</td>
+      <td>5</td>
+      <td>1</td>
+      <td>3</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Thrash Metal</th>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Worldbeat</th>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>61 rows × 8 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>A marginal probability distribution describes the likelihood of a single event occurring, independent of other events. For example, if we have a random variable $X$, the marginal probability distribution of $X$ is represented by $P(X=x)$, where $x$ is a possible outcome of the variable $X$. The sum of all the possible outcomes of the marginal probability distribution will always be equal to 1.</p>
 <p>A joint probability distribution describes the likelihood of two or more events occurring simultaneously. For example, if we have two random variables $X$ and $Y$, the joint probability distribution of $X$ and $Y$ is represented by $P(X=x, Y=y)$, where $x$ and $y$ are possible outcomes of the variables $X$ and $Y$ respectively. The sum of all the possible outcomes of the joint probability distribution will also always be equal to 1.</p>
-<p>A conditional probability distribution is the probability of a certain outcome of a random variable given that another event has already occurred. For example, if we have two random variables $X$ and $Y$, the conditional probability distribution of $X$ given $Y$ is represented by $P(X=x|Y=y)$, where $x$ and $y$ are possible outcomes of the variables $X$ and $Y$ respectively. It gives the likelihood of the outcome of $X$ when $Y$ is fixed.</p>
+<p>A conditional probability distribution is the probability of a certain outcome of a random variable given that another event has already occurred. For example, if we have two random variables $X$ and $Y$, the conditional probability distribution of $X$ given $Y$ is represented by $P(X=x|Y=y)$, where $x$ and $y$ are possible outcomes of the variables $X$ and $Y$ respectively. It gives the likelihood of the outcome of $X$ when $Y$ is given.</p>
 <p>The relationship between these three probability distributions can be represented mathematically using the following equations:</p>
 $$P(X=x) = \Sigma P(X=x, Y=y) \forall y$$$$P(X=x, Y=y) = P(X=x|Y=y) * P(Y=y)$$$$P(X=x|Y=y) = P(X=x, Y=y) / P(Y=y)$$<p>It's important to note that these equations hold true only if the events are independent and mutually exclusive. If events are dependent on each other, these equations will not hold true and the probabilities will be different.</p>
 <p>To sum up, marginal probability distribution describes the likelihood of a single event occurring, joint probability distribution describes the likelihood of two or more events occurring simultaneously and conditional probability distribution describes the likelihood of a certain outcome of a random variable given that another event has already occurred. These three probability distributions can be related to each other through mathematical equations, but it is important to remember that these equations hold true only if the events are independent and mutually exclusive.</p>

@@ -1202,19 +1202,35 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <p>In reinforcement learning (RL), the primary distinction between RL and supervised learning (SL) is that RL <em>evaluates</em> the actions of the bot rather than <em>instructing</em> it. SL simply indicates the correct action to be taken, regardless of the action taken, while RL indicates how good the action was. To study the evaluative aspect of RL, we will consider a simplified setting called the k-armed bandit problem.</p>
 <p>In this problem, you are faced repeatedly with a choice among k different actions. After each choice, you receive a numerical reward chosen from a stationary probability density function that depends on the action you selected. Your goal is to maximize the expected total reward over a specified time period, such as 1000 time steps.</p>
 <p>The problem is named after the analogy to a slot machine (the "one-armed bandit"), except that it has k levers. Each action has an expected reward, referred to as its <strong>value</strong>. It's important to note that if you knew the value of each action, the problem would be solved because you would simply select the action with the greatest value. In practice we need to estimate the value, which is formally defined as:</p>
-$$ q_{*}(a) := \mathbf{E}[R_{t}|A_{t}=a] $$<p>Where $q_{*}(a)$ is the expected reward, given that action $a$ is selected. $R_{t}$ is the reward and $A_{t}$ is the action taken at time $t$. The subscript $*$ indicates that this is the true value, which is unknown to the agent but it is the value we are trying to estimate. In theory, if we knew the joint probability distribution of the rewards and actions, we could calculate the true value of each action. However, in practice, we only have access to the historical rewards and actions, and we must estimate the true value of each action.</p>
+$$ q_{*}(a) := \mathbf{E}[R_{t}|A_{t}=a] $$<p>Where $q_{*}(a)$ is the expected reward, given that action $a$ is selected. $R_{t}$ is the reward and $A_{t}$ is the action taken at time $t$. The subscript $*$ indicates that this is the true value, which is unknown to the agent but it is the value we are trying to estimate. In theory, if we knew the <a href="/pdf-basics.html">joint probability distribution</a> of the rewards and actions, we could calculate the true value of each action. However, in practice, we only have access to the historical rewards and actions, and we must estimate the true value of each action.</p>
 <p>One way to estimate the values of actions is to average the rewards seen when a particular action was taken (not necessarily the best way). This is known as an <strong>action-value method</strong>.</p>
-$$ Q_{t}(a) := \frac{\text{sum of rewards when $a$ taken prior to t}}{\text{number of times $a$ taken prior to t}} $$$$ Q_{t}(a) = \frac{\sum_{i=1}^{t-1}R_{i}\cdot \bm{1}_{A_i=a}}{\sum_{i=1}^{t-1} \bm{1}_{A_{i}=a}} $$<p>Then, the simplest action selection rule is to choose the action with the highest estimated value, referred to as a greedy action.</p>
-$$A_{t} \coloneqq \underset{a}{\mathrm{argmax}}Q_{t}(a) $$<p>However, it is often beneficial to also explore non-greedy actions by selecting a random action with a small $\epsilon$ probability, known as an $\epsilon-greedy$ method. This ensures that all actions are sampled an infinite number of times, allowing the estimate of the value to converge to the true value.</p>
+$$ Q_{t}(a) := \frac{\text{sum of rewards when $a$ taken prior to t}}{\text{number of times $a$ taken prior to t}} $$$$ Q_{t}(a) = \frac{\sum_{i=1}^{t-1}R_{i}\cdot \boldsymbol{1}_{A_i=a}}{\sum_{i=1}^{t-1} \boldsymbol{1}_{A_{i}=a}} $$<p>Then, the simplest action selection rule is to choose the action with the highest estimated value, referred to as a greedy action.</p>
+$$A_{t} := \underset{a}{\mathrm{argmax}}Q_{t}(a) $$<p>However, it is often beneficial to also explore non-greedy actions by selecting a random action with a small $\epsilon$ probability, known as an $\epsilon-greedy$ method. This ensures that all actions are sampled an infinite number of times, allowing the estimate of the value to converge to the true value.</p>
 <p>To compare the performance of greedy and epsilon-greedy methods, Sutton provides a toy problem in his book where he analyzes a set of 2000 randomly generated k-armed bandit problems with k=10. The true values of the actions are selected from a normal distribution, and the reward for each action is also a normal distribution with a mean equal to the true value of the action. The learning agent is progressed over 1000 steps, referred to as one run, and this process is repeated 2000 times to effectively evaluate different bandit problems.</p>
 <figure>
-  <center><img style='height: 80%; width: 80%; object-fit: contain' src="../images/multiarmed_bandit.jpg" /></center>
+  <center><img style='max-width:100%; height:auto' src="../images/multiarmed_bandit.JPG" /></center>
   <center><figcaption>Essentially each action is a associated with a reward distribution whose mean is the value. The centers of these distributions randomly change for each run</figcaption></center>
 </figure><p>What we see from such a simulation is that in the case of noisy rewards, the epsilon-greedy method performed better than the greedy method because it was able to explore more actions and improve its chances of finding the optimal action (see below). If there were no noise, the greedy method would perform best because it would quickly find the optimal action and stick to it. Overall, the epsilon-greedy method seemed to be the more robust choice, performing well in both noisy and less noisy environments. It is important to carefully consider the trade-off between exploration and exploitation in RL to achieve optimal performance.</p>
 <figure>
-  <center><img style='height: 80%; width: 80%; object-fit: contain' src="../images/bandit_sim.jpg" /></center>
+  <center><img style='max-width:100%; height:auto' src="../images/bandit_sim.JPG" /></center>
   <center><figcaption>It's clear that a little bit of exploration leads to higher average rewards and a higher percentage of decisions going to the optimal value decision</figcaption></center>
 </figure>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Sources"><strong>Sources</strong><a class="anchor-link" href="#Sources">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Sutton, R. S., Barto, A. G. (2018). Reinforcement learning: An introduction (2nd ed.). MIT Press Ltd.</p>
+<p>White, M., White, A. (n.d.). <em>Reinforcement Learning Specialization</em> [MOOC]. Coursera.</p>
+
 </div>
 </div>
 </div>
