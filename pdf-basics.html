@@ -6,9 +6,9 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="author" content="Ed Taylor, Ph.D." />
-        <title>The Fundamental Probability Distributions You Should Know</title>
+        <title>Multiple Random Variables: Marginal, Joint, and Conditional Distributions</title>
         
-<meta name="description" content="&lt;p&gt;The basic distributions of probability theory&lt;/p&gt;" />
+<meta name="description" content="&lt;p&gt;An introduction to the fundamental mathematical objects in the analysis of multiple random variables with Python examples&lt;/p&gt;" />
 <meta name="keywords" content=" pdfs probability  "/>
 
         <!--[if !IE 7]>
@@ -54,7 +54,7 @@
                 <div id="contents">
 <div class="row">
     <div class="small-12 columns article">
-        <h2>The Fundamental Probability Distributions You Should Know</h2>
+        <h2>Multiple Random Variables: Marginal, Joint, and Conditional Distributions</h2>
         <div class="row info-bar" style="margin-left:0rem;margin-bottom:6px;">
     <div class="small-12 columns">
         <ul class="inline-list">
@@ -1189,15 +1189,33 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
  .highlight pre  .il { color: #666666 } /* Literal.Number.Integer.Long */</style><div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<figure>
+  <center><img style='height: 80%; width: 80%; object-fit: contain' src="../images/nature_mvr.jpg" /></center>
+  <center><figcaption>Multivariate randomness is ubiquitous in nature</figcaption></center>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="A-Simple-Example"><strong>A Simple Example</strong><a class="anchor-link" href="#A-Simple-Example">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Probability distributions are mathematical functions that describe the likelihood of different outcomes in a random event. In statistics, there are three main types of probability distributions: marginal, joint, and conditional. Each type describes a different aspect of the probability of a certain outcome or set of outcomes.</p>
 <p>Let's intertwine an example as we form our analytical definitions. Suppose we took a survey of people every year from 2015-2022 and determined an aggregate top 500 classic rock songs. We have such a dataset from kaggle (<a href="https://www.kaggle.com/datasets/juliotorniero/classic-rock-top-500-songs">https://www.kaggle.com/datasets/juliotorniero/classic-rock-top-500-songs</a>) and can load it into a pandas dataframe. Lets do an analysis on the year and probability of a certain genre being in the top 500.</p>
+<p>Note: This dataset, like most datasets, comes in the form of discrete data. Therefore, the analytical forms of our probability distributions shown below will be for the discrete case.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -1219,7 +1237,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[20]:</div>
+    <div class="prompt output_prompt">Out[2]:</div>
 
 
 
@@ -1407,7 +1425,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_probdist</span> <span class="o">=</span> <span class="n">data_agg</span> <span class="o">/</span> <span class="n">data_agg</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
@@ -1424,7 +1442,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[25]:</div>
+    <div class="prompt output_prompt">Out[3]:</div>
 
 
 
@@ -1605,14 +1623,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Marginal-Probability"><strong>Marginal Probability</strong><a class="anchor-link" href="#Marginal-Probability">&#182;</a></h4>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>A marginal probability distribution describes the likelihood of a single event occurring, independent of other events. For example, if we have a random variable $X$, the marginal probability distribution of $X$ is represented by $P(X=x)$, where $x$ is a possible outcome of the variable $X$. The sum of all the possible outcomes of the marginal probability distribution will always be equal to 1. So in our example, what is the likelihood of thrash metal being in the top 500? We can calculate this by dividing the number of thrash metal songs by the total number of songs in the dataset.</p>
+<p>In the examples below, let $X$ be the random variable representing the genre of a song and $Y$ be the random variable representing the year of a song.</p>
 
 </div>
 </div>
@@ -1620,11 +1631,123 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A joint probability distribution describes the likelihood of two or more events occurring simultaneously. For example, if we have two random variables $X$ and $Y$, the joint probability distribution of $X$ and $Y$ is represented by $P(X=x, Y=y)$, where $x$ and $y$ are possible outcomes of the variables $X$ and $Y$ respectively. The sum of all the possible outcomes of the joint probability distribution will also always be equal to 1.</p>
-<p>A conditional probability distribution is the probability of a certain outcome of a random variable given that another event has already occurred. For example, if we have two random variables $X$ and $Y$, the conditional probability distribution of $X$ given $Y$ is represented by $P(X=x|Y=y)$, where $x$ and $y$ are possible outcomes of the variables $X$ and $Y$ respectively. It gives the likelihood of the outcome of $X$ when $Y$ is given.</p>
-<p>The relationship between these three probability distributions can be represented mathematically using the following equations:</p>
-$$P(X=x) = \Sigma P(X=x, Y=y) \forall y$$$$P(X=x, Y=y) = P(X=x|Y=y) * P(Y=y)$$$$P(X=x|Y=y) = P(X=x, Y=y) / P(Y=y)$$<p>It's important to note that these equations hold true only if the events are independent and mutually exclusive. If events are dependent on each other, these equations will not hold true and the probabilities will be different.</p>
-<p>To sum up, marginal probability distribution describes the likelihood of a single event occurring, joint probability distribution describes the likelihood of two or more events occurring simultaneously and conditional probability distribution describes the likelihood of a certain outcome of a random variable given that another event has already occurred. These three probability distributions can be related to each other through mathematical equations, but it is important to remember that these equations hold true only if the events are independent and mutually exclusive.</p>
+<h3 id="Marginal-Probability"><strong>Marginal Probability</strong><a class="anchor-link" href="#Marginal-Probability">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A marginal probability distribution describes the likelihood of a single event occurring, independent of other events. For example, if we have a random variable $X$, the marginal probability distribution of $X$ is represented by $P(X=x)$, where $x$ is a possible outcome of the variable $X$. The sum of all the possible outcomes of the marginal probability distribution will always be equal to 1. So in our example, what is the likelihood of thrash metal being in the top 500? We can calculate this by dividing the number of thrash metal songs by the total number of songs in the dataset. The other way to calculate this marginal probability would be to sum the probabilities of thrash metal across all years. This is due to the following relation between marginal and joint probability distributions:</p>
+$$P(X=x) = \sum_{y} P(X=x, Y=y)$$<p>What this means in practice is we set $X$ to be fixed at the thrash metal genre and sum those probabilities over all possible values of $Y$. This number should match our intuitive calculation of dividing the number of thrash metal songs by the total number of songs in the dataset.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># check whether summing probabilitys across years matches the probability of the genre</span>
+<span class="n">data_probdist</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Thrash Metal&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="n">data_agg</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Thrash Metal&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">data_agg</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[20]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Joint-Probability"><strong>Joint Probability</strong><a class="anchor-link" href="#Joint-Probability">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A joint probability distribution describes the likelihood of two or more events occurring simultaneously. For example, if we have two random variables $X$ and $Y$, the joint probability distribution of $X$ and $Y$ is represented by $P(X=x, Y=y)$ (sometimes written as $P({X=x}\cap{Y=y})$), where $x$ and $y$ are possible outcomes of the variables $X$ and $Y$ respectively. The sum of all the possible outcomes of the joint probability distribution will also always be equal to 1. In the above table of probability values, this is already essentially the joint probability distribution (an estimation of it) and we simply need to read the values off of it! For example, the probability of thrash metal being in the top 500 in 2022 is 0.000447.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Conditional-Probability"><strong>Conditional Probability</strong><a class="anchor-link" href="#Conditional-Probability">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A conditional probability distribution is the probability of a certain outcome of a random variable given that another event has already occurred. For example, if we have two random variables $X$ and $Y$, the conditional probability distribution of $X$ given $Y$ is represented by $P(X=x|Y=y)$, where $x$ and $y$ are possible outcomes of the variables $X$ and $Y$ respectively. It gives the likelihood of the outcome of $X$ when $Y$ is given. An essential property used when calculating conditional probability is the following:</p>
+$$P(X=x|Y=y) = \frac{P(X=x, Y=y)}{P(Y=y)}$$<p>This directly follows from the chain rule of probability, $P(X=x, Y=y) = P(X=x|Y=y) * P(Y=y)$. From our example, if we wanted to calculate the probability of Thrash Metal being in the top 500 given that it is 2022, we would divide the probability of Thrash Metal being in the top 500 in 2022 by the probability of 2022 being in the dataset. Remembering how we calculate the marginal probability, we simple sum the probabilities in the 2022 column to get its marginal probability aka the probability of 2022 being in the dataset.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_probdist</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Thrash Metal&#39;</span><span class="p">,</span><span class="s1">&#39;2022&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">data_probdist</span><span class="p">[</span><span class="s1">&#39;2022&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[21]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.0019999999999999996</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To reiterate, the relationship between these three probability distributions that are essential in solving problems involving them are as follows:</p>
+$$P(X=x) = \sum_{y} P(X=x, Y=y)$$$$P(X=x|Y=y) = P(X=x, Y=y) / P(Y=y)$$<p>The above equations are essentially considered definitions and will always be useful on the scientist's toolbox. One additional equation which comes in handy has to do with independend. When random variables are independent, the following equation holds true:</p>
+$$P(X=x, Y=y) = P(X=x) * P(Y=y)$$<p>To sum up, the marginal probability distribution describes the likelihood of a single event occurring, the joint probability distribution describes the likelihood of two or more events occurring simultaneously and the conditional probability distribution describes the likelihood of a certain outcome of a random variable given that another event has already occurred. These three probability distributions can be related to each other through fundamental probability definitions are the key building blocks for solving multi random variable problems.</p>
 
 </div>
 </div>
