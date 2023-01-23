@@ -1,7 +1,7 @@
-Title: The Fundamental Probability Distributions You Should Know
+Title: Multiple Random Variables: Marginal, Joint, and Conditional Distributions
 Slug: pdf-basics
 Date: 2023-1-17
 Category: Probability
 Tags: pdfs probability 
 Author: Ed Taylor
-Summary: The basic distributions of probability theory
+Summary: An introduction to the fundamental mathematical objects in the analysis of multiple random variables with Python examples
