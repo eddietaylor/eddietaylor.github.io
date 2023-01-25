@@ -1,0 +1,7 @@
+Title: Markov Decision Processes - The Framework For Decision-Making Under Uncertainty
+Slug: MDP
+Date: 2023-1-22
+Category: Reinforcement Learning
+Tags: rl python dp MDP 
+Author: Ed Taylor
+Summary: Markov Decision Processes are the essential process which we use in dynamic programming and thus reinforcement learning problems. It is an extension of Markov chains and provides the theoretical backbone for training an AI agent under iterative environments and rewards based off of decisions.

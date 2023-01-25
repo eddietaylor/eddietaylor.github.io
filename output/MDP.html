@@ -6,10 +6,10 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="author" content="Ed Taylor, Ph.D." />
-        <title>Multiple Random Variables: Marginal, Joint, and Conditional Distributions</title>
+        <title>Markov Decision Processes - The Framework For Decision-Making Under Uncertainty</title>
         
-<meta name="description" content="&lt;p&gt;An introduction to the fundamental mathematical objects in the analysis of multiple random variables with Python examples&lt;/p&gt;" />
-<meta name="keywords" content=" pdfs probability  "/>
+<meta name="description" content="&lt;p&gt;Markov Decision Processes are the essential process which we use in dynamic programming and thus reinforcement learning problems. It is an extension of Markov chains and provides the theoretical backbone for training an AI agent under iterative environments and rewards based off of decisions.&lt;/p&gt;" />
+<meta name="keywords" content=" rl python dp MDP  "/>
 
         <!--[if !IE 7]>
         <style type="text/css">
@@ -38,8 +38,8 @@
                             <li><a href="/pages/more-about-author.html">More About Author</a></li>
                         </ul>
                         <ul class="right">
-                            <li class="active"><a href="/category/probability.html">Probability</a></li>
-                            <li><a href="/category/reinforcement-learning.html">Reinforcement Learning</a></li>
+                            <li><a href="/category/probability.html">Probability</a></li>
+                            <li class="active"><a href="/category/reinforcement-learning.html">Reinforcement Learning</a></li>
                         </ul>
                     </section>
                 </nav>
@@ -54,16 +54,16 @@
                 <div id="contents">
 <div class="row">
     <div class="small-12 columns article">
-        <h2>Multiple Random Variables: Marginal, Joint, and Conditional Distributions</h2>
+        <h2>Markov Decision Processes - The Framework For Decision-Making Under Uncertainty</h2>
         <div class="row info-bar" style="margin-left:0rem;margin-bottom:6px;">
     <div class="small-12 columns">
         <ul class="inline-list">
-            <li><span><i class="fa fa-calendar"></i>&nbsp; Tue 17 January 2023</span></li>
-            <li><span><i class="fa fa-folder-open"></i>&nbsp; <a href="/category/probability.html">Probability</a></span></li>
+            <li><span><i class="fa fa-calendar"></i>&nbsp; Sun 22 January 2023</span></li>
+            <li><span><i class="fa fa-folder-open"></i>&nbsp; <a href="/category/reinforcement-learning.html">Reinforcement Learning</a></span></li>
             <li>
                 <span>
                     <i class="fa fa-tags"></i>&nbsp;
-                    <a href="/tag/pdfs-probability.html"><span class="label">pdfs probability</span></a>
+                    <a href="/tag/rl-python-dp-mdp.html"><span class="label">rl python dp MDP</span></a>
                 </span>
             </li>
         </ul>
@@ -1190,8 +1190,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <figure>
-  <center><img style='height: 100%; width: 100%; object-fit: contain' src="../images/nature_mvr.jpg" /></center>
-  <center><figcaption>Multivariate randomness is ubiquitous in nature</figcaption></center>
+  <center><img style='height: 100%; width: 100%; object-fit: contain' src="../images/mars_rover.jpg" /></center>
+  <center><figcaption>How do we optimize decision making in uncertain environments?</figcaption></center>
 </figure>
 </div>
 </div>
@@ -1199,555 +1199,16 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="A-Simple-Example"><strong>A Simple Example</strong><a class="anchor-link" href="#A-Simple-Example">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Probability distributions are mathematical functions that describe the likelihood of different outcomes in a random event. In statistics, there are three main types of probability distributions: marginal, joint, and conditional. Each type describes a different aspect of the probability of a certain outcome or set of outcomes.</p>
-<p>Let's intertwine an example as we form our analytical definitions. Suppose we took a survey of people every year from 2015-2022 and determined an aggregate top 500 classic rock songs. We have such a dataset from kaggle (<a href="https://www.kaggle.com/datasets/juliotorniero/classic-rock-top-500-songs">https://www.kaggle.com/datasets/juliotorniero/classic-rock-top-500-songs</a>) and can load it into a pandas dataframe. Lets do an analysis on the year and probability of a certain genre being in the top 500.</p>
-<p>Note: This dataset, like most datasets, comes in the form of discrete data. Therefore, the analytical forms of our probability distributions shown below will be for the discrete case.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../data/classic_rock_playlist.csv&quot;</span><span class="p">)</span>
-<span class="c1"># lets grab the genre and the years</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;Genre&#39;</span><span class="p">,</span><span class="s1">&#39;2022&#39;</span><span class="p">,</span><span class="s1">&#39;2021&#39;</span><span class="p">,</span><span class="s1">&#39;2020&#39;</span><span class="p">,</span><span class="s1">&#39;2019&#39;</span><span class="p">,</span><span class="s1">&#39;2018&#39;</span><span class="p">,</span><span class="s1">&#39;2017&#39;</span><span class="p">,</span><span class="s1">&#39;2016&#39;</span><span class="p">,</span><span class="s1">&#39;2015&#39;</span><span class="p">]]</span>
-<span class="c1"># lets add up all the times each genre made it into the top 500</span>
-<span class="n">data_agg</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Genre&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-<span class="n">data_agg</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[2]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>2022</th>
-      <th>2021</th>
-      <th>2020</th>
-      <th>2019</th>
-      <th>2018</th>
-      <th>2017</th>
-      <th>2016</th>
-      <th>2015</th>
-    </tr>
-    <tr>
-      <th>Genre</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>A Cappella</th>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Acoustic Rock</th>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Alternative Metal</th>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Alternative Rock</th>
-      <td>33</td>
-      <td>18</td>
-      <td>14</td>
-      <td>15</td>
-      <td>16</td>
-      <td>15</td>
-      <td>7</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>Arena Rock</th>
-      <td>3</td>
-      <td>2</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>Symphonic Rock</th>
-      <td>2</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>Synth Rock</th>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Synthpop</th>
-      <td>6</td>
-      <td>5</td>
-      <td>1</td>
-      <td>3</td>
-      <td>2</td>
-      <td>1</td>
-      <td>2</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Thrash Metal</th>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>Worldbeat</th>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<p>61 rows × 8 columns</p>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>To convert these numbers into probabilities, we have to divide each count by the total number of observations.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_probdist</span> <span class="o">=</span> <span class="n">data_agg</span> <span class="o">/</span> <span class="n">data_agg</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">data_probdist</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[3]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>2022</th>
-      <th>2021</th>
-      <th>2020</th>
-      <th>2019</th>
-      <th>2018</th>
-      <th>2017</th>
-      <th>2016</th>
-      <th>2015</th>
-    </tr>
-    <tr>
-      <th>Genre</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>A Cappella</th>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000000</td>
-      <td>0.000447</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>Acoustic Rock</th>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000000</td>
-      <td>0.000447</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>Alternative Metal</th>
-      <td>0.000447</td>
-      <td>0.000000</td>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000000</td>
-      <td>0.000447</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>Alternative Rock</th>
-      <td>0.014739</td>
-      <td>0.008039</td>
-      <td>0.006253</td>
-      <td>0.006699</td>
-      <td>0.007146</td>
-      <td>0.006699</td>
-      <td>0.003126</td>
-      <td>0.001340</td>
-    </tr>
-    <tr>
-      <th>Arena Rock</th>
-      <td>0.001340</td>
-      <td>0.000893</td>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000000</td>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000447</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>Symphonic Rock</th>
-      <td>0.000893</td>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000447</td>
-    </tr>
-    <tr>
-      <th>Synth Rock</th>
-      <td>0.000447</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>Synthpop</th>
-      <td>0.002680</td>
-      <td>0.002233</td>
-      <td>0.000447</td>
-      <td>0.001340</td>
-      <td>0.000893</td>
-      <td>0.000447</td>
-      <td>0.000893</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>Thrash Metal</th>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>Worldbeat</th>
-      <td>0.000447</td>
-      <td>0.000447</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-    </tr>
-  </tbody>
-</table>
-<p>61 rows × 8 columns</p>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In the examples below, let $X$ be the random variable representing the genre of a song and $Y$ be the random variable representing the year of a song.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Marginal-Probability"><strong>Marginal Probability</strong><a class="anchor-link" href="#Marginal-Probability">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>A marginal probability distribution describes the likelihood of a single event occurring, independent of other events. For example, if we have a random variable $X$, the marginal probability distribution of $X$ is represented by $P(X=x)$, where $x$ is a possible outcome of the variable $X$. The sum of all the possible outcomes of the marginal probability distribution will always be equal to 1. So in our example, what is the likelihood of thrash metal being in the top 500? We can calculate this by dividing the number of thrash metal songs by the total number of songs in the dataset. The other way to calculate this marginal probability would be to sum the probabilities of thrash metal across all years. This is due to the following relation between marginal and joint probability distributions:</p>
-$$P(X=x) = \sum_{y} P(X=x, Y=y)$$<p>What this means in practice is we set $X$ to be fixed at the thrash metal genre and sum those probabilities over all possible values of $Y$. This number should match our intuitive calculation of dividing the number of thrash metal songs by the total number of songs in the dataset.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># check whether summing probabilitys across years matches the probability of the genre</span>
-<span class="n">data_probdist</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Thrash Metal&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="n">data_agg</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Thrash Metal&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">data_agg</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[20]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>True</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Joint-Probability"><strong>Joint Probability</strong><a class="anchor-link" href="#Joint-Probability">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>A joint probability distribution describes the likelihood of two or more events occurring simultaneously. For example, if we have two random variables $X$ and $Y$, the joint probability distribution of $X$ and $Y$ is represented by $P(X=x, Y=y)$ (sometimes written as $P({X=x}\cap{Y=y})$), where $x$ and $y$ are possible outcomes of the variables $X$ and $Y$ respectively. The sum of all the possible outcomes of the joint probability distribution will also always be equal to 1. In the above table of probability values, this is already essentially the joint probability distribution (an estimation of it) and we simply need to read the values off of it! For example, the probability of thrash metal being in the top 500 in 2022 is 0.000447.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Conditional-Probability"><strong>Conditional Probability</strong><a class="anchor-link" href="#Conditional-Probability">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>A conditional probability distribution is the probability of a certain outcome of a random variable given that another event has already occurred. For example, if we have two random variables $X$ and $Y$, the conditional probability distribution of $X$ given $Y$ is represented by $P(X=x|Y=y)$, where $x$ and $y$ are possible outcomes of the variables $X$ and $Y$ respectively. It gives the likelihood of the outcome of $X$ when $Y$ is given. An essential property used when calculating conditional probability is the following:</p>
-$$P(X=x|Y=y) = \frac{P(X=x, Y=y)}{P(Y=y)}$$<p>This directly follows from the chain rule of probability, $P(X=x, Y=y) = P(X=x|Y=y) * P(Y=y)$. From our example, if we wanted to calculate the probability of Thrash Metal being in the top 500 given that it is 2022, we would divide the probability of Thrash Metal being in the top 500 in 2022 by the probability of 2022 being in the dataset. Remembering how we calculate the marginal probability, we simple sum the probabilities in the 2022 column to get its marginal probability aka the probability of 2022 being in the dataset.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_probdist</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;Thrash Metal&#39;</span><span class="p">,</span><span class="s1">&#39;2022&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">data_probdist</span><span class="p">[</span><span class="s1">&#39;2022&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[21]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>0.0019999999999999996</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>To reiterate, the relationship between these three probability distributions that are essential in solving problems involving them are as follows:</p>
-$$P(X=x) = \sum_{y} P(X=x, Y=y)$$$$P(X=x|Y=y) = P(X=x, Y=y) / P(Y=y)$$<p>The above equations are essentially considered definitions and will always be useful on the scientist's toolbox. One additional equation which comes in handy has to do with independend. When random variables are independent, the following equation holds true:</p>
-$$P(X=x, Y=y) = P(X=x) * P(Y=y)$$<p>To sum up, the marginal probability distribution describes the likelihood of a single event occurring, the joint probability distribution describes the likelihood of two or more events occurring simultaneously and the conditional probability distribution describes the likelihood of a certain outcome of a random variable given that another event has already occurred. These three probability distributions can be related to each other through fundamental probability definitions are the key building blocks for solving multi random variable problems.</p>
+<p>Finite Markov Decision Processes (MDPs) are fundamental processes in reinforcement learning (RL) and are an extension of <a href="/markov-basics.html">markov chains</a>, systems where the next state is only dependent on the current state. MDPs extend Markov chains by simply adding in actions and rewards, hence turning a stochastic process into a stochastic decision process. They are useful for studying optimization problems solved using dynamic programming, which is a method for solving problems with optimal substructure, that is, where the optimal solution to a problem can be found by combining optimal solutions to its subproblems. In this post, we'll go over the basics of MDPs and how they are used in RL.</p>
+<p>MDPs involve both evaluative feedback, as with the k-armed bandits, but also an <strong>associative</strong> aspect, where actions influence not just immediate rewards, but also subsequent situations (or states). This leads to delayed rewards and the need to trade off immediate and delayed rewards because the state the bot finds itself in can impact future rewards. In this sense, the RL agent is trying to determine how both their environment and actions map onto value. In k-armed bandits, the goal is to estimate the value $q_{*}(a)$ of each action $a$, while with MDPs, the goal is to estimate $q_{*}(s,a)$ of each action $a$ in each state $s$, or the value $v_{*}(s)$ of each state given optimal action selections. It's important to not that MDPs are a mathematically idealized form of the RL problem.</p>
+<p>The agent-environment interface is the foundation of MDPs. The agent, or the learner and decision maker, interacts with the environment, which presents new situations and gives rise to rewards that the agent seeks to maximize over time with its actions. The agent and environment interact at discrete time steps $t=0,1,2,3,...$ and at each time step, the agent receives a representation of the environment's state, $S_t \in S$ and from that, selects an action, $A_t \in A(s)$. One time step later, the agent receives a reward $R_{t+1} \in R$ and finds itself in a new state $S_{t+1}$. The state space can be anything including stock returns, the score of a game, or the position of a robot. 
+ A common diagram used to represent this, as well as RL in general, is the following:</p>
+<figure>
+  <center><img style='height: 80%; width: 80%; object-fit: contain' src="../images/MDP.PNG" /></center>
+  <center><figcaption>A Markov Decision Process involves an agent interacting with an environment. At discrete time steps, the agent takes an action and then recieves a reward and state in the next time step. The process repeats.</figcaption></center>
+</figure><p>In a finite MDP, the sets of states, actions, and rewards ($S, A, R$) all have a finite number of elements. In this case, the random variables $R_t$ and $S_t$ have well defined discrete probability distributions dependent only on the preceding state and action. The state-transition probabilities can be computed as:</p>
+$$p(s'|s,a) \coloneqq Pr(S_t=s'|S_{t-1}=s,A_{t-1}=a) = \sum_{r \in R}p(s',r|s,a)$$<p>and the expected rewards for state-action pairs can be computed as:</p>
+$$r(s,a) \coloneqq \mathbf{E}[R_{t}|S_{t-1}=s,A_{t-1}=a] = \sum_{r \in R}r\sum_{s' \in S}p(s',r|s,a)$$<p>The general rule is that whatever cannot be changed by the agent is considered part of its environment. However, the reward computation is always considered external to the agent because it defined the task facing the agent and is beyond its ability to change arbitrarily. The agent-environment boundary represents the limit of the agent's absolute control, not of its knowledge.</p>
 
 </div>
 </div>
@@ -1762,10 +1223,10 @@ $$P(X=x, Y=y) = P(X=x) * P(Y=y)$$<p>To sum up, the marginal probability distribu
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Pykes, K. (2020, September 5). Marginal, Joint and Conditional Probabilities explained By Data Scientist. Medium. <a href="https://towardsdatascience.com/marginal-joint-and-conditional-probabilities-explained-by-data-scientist-4225b28907a4">https://towardsdatascience.com/marginal-joint-and-conditional-probabilities-explained-by-data-scientist-4225b28907a4</a></p>
-<p>Probability, Statistics &amp; Random Processes | Free Textbook | Course. (n.d.). Www.probabilitycourse.com. <a href="https://www.probabilitycourse.com/">https://www.probabilitycourse.com/</a></p>
-<p>Conditional Probability Distribution | Brilliant Math &amp; Science Wiki. (n.d.). Brilliant.org. Retrieved January 24, 2023, from <a href="https://brilliant.org/wiki/conditional-probability-distribution/">https://brilliant.org/wiki/conditional-probability-distribution/</a></p>
-<p>‌Discrete Random Variables - Joint Probability Distribution | Brilliant Math &amp; Science Wiki. (n.d.). Brilliant.org. Retrieved January 24, 2023, from <a href="https://brilliant.org/wiki/discrete-random-variables-joint-probability/">https://brilliant.org/wiki/discrete-random-variables-joint-probability/</a></p>
+<p>Sutton, R. S., Barto, A. G. (2018). Reinforcement learning: An introduction (2nd ed.). MIT Press Ltd.</p>
+<p>White, M., White, A. (n.d.). <em>Reinforcement Learning Specialization</em> [MOOC]. Coursera.</p>
+<p>Markov Chains | Brilliant Math &amp; Science Wiki. (n.d.). Brilliant.org. <a href="https://brilliant.org/wiki/markov-chains/#:~:text=A%20Markov%20chain%20is%20a">https://brilliant.org/wiki/markov-chains/#:~:text=A%20Markov%20chain%20is%20a</a></p>
+<p>Wikipedia Contributors. (2019, May 20). Markov decision process. Wikipedia; Wikimedia Foundation. <a href="https://en.wikipedia.org/wiki/Markov_decision_process">https://en.wikipedia.org/wiki/Markov_decision_process</a></p>
 
 </div>
 </div>
