@@ -1189,6 +1189,16 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
  .highlight pre  .il { color: #666666 } /* Literal.Number.Integer.Long */</style><div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<figure>
+  <center><img style='height: 100%; width: 100%; object-fit: contain' src="../images/dalle_desert.png" /></center>
+  <center><figcaption>What is the structure of chaos? Does it all begin with the Markov chain?</figcaption></center>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Discrete-Time-Markov-Chains"><strong>Discrete Time Markov Chains</strong><a class="anchor-link" href="#Discrete-Time-Markov-Chains">&#182;</a></h3>
 </div>
 </div>
@@ -1196,7 +1206,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A discrete-time random process, ${X_m,m=0,1,2,…}$, is a sequence of random variables that are observed at different time steps. In the simplest case where the $X_m$'s are independent, the analysis of this process is straightforward. However, in many real-life situations, the $X_m$'s are not independent and we need to develop models where the value of $X_m$ depends on the previous values. One such model is a Markov chain which is typically the shorthand used for what is the discrete time Markov chain.</p>
+<p>A discrete-time random process, {${X_m,m=0,1,2,…}$}, is a sequence of random variables that are observed at different time steps. In the simplest case where the $X_m$'s are independent, the analysis of this process is straightforward. However, in many real-life situations, the $X_m$'s are not independent and we need to develop models where the value of $X_m$ depends on the previous values. One such model is a Markov chain which is typically the shorthand used for what is the discrete time Markov chain.</p>
 <p>In a Markov chain, $X_{m+1}$ depends on $X_m$, but given $X_m$, it does not depend on the other previous values $X_0, X_1, \ldots, X_{m-1}$. This means that conditioned on $X_m$, the random variable $X_{m+1}$ is independent of the random variables $X_0, X_1, \ldots, X_{m-1}$. Another way to look at it is, determination of future states only depends on the current state and not the past states. This Markov property is sometimes called <strong>memorylessness</strong>. In practice, Markov chains are used to model the evolution of states in probabilistic systems. For example, if we are modeling a queue at a bank, the number of people in the queue can be defined as the state of the system.</p>
 
 </div>
@@ -1205,12 +1215,26 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Formal-Definition"><strong>Formal Definition</strong><a class="anchor-link" href="#Formal-Definition">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Let us define a random process {${X_n,n=0,1,2,\ldots}$}, where the random variables' ranges, $R_{X_i} = S \subseteq \{0,1,2,\ldots\}$, are discrete. 
 For any positive integer $m$ and possible states $i_0, i_1, ..., i_{m}$, we say that the process is in state $i_m$ at time $m$ if $X_m = i_m$.
-Formally, this process is a Markov chain if $$P(X_{m+1}=j|X_m=i,X_{m-1}=i_{m-1},\ldots,X_0=i_0) = P(X_{m+1}=j|X_m=i)$$ for all $m,j,i,i_0,i_1,\ldots i_{m-1}$. This is known as the <strong>Markov Property</strong>. The numbers $P(X_{m+1}=j|X_m=i)$ are called the transition probabilities and they do not depend on time. Thus, we can define a transition probability matrix:</p>
+Formally, this process is a Markov chain if $$P(X_{m+1}=j|X_m=i,X_{m-1}=i_{m-1},\ldots,X_0=i_0) = P(X_{m+1}=j|X_m=i)$$ for all $m,j,i,i_0,i_1,\ldots i_{m-1}$. This is known as the <strong>Markov Property</strong>. The numbers $P(X_{m+1}=j|X_m=i)$ are called the transition probabilities and they do not depend on time. Thus, we can define a <strong>transition probability matrix</strong>:</p>
 $$p_{ij} = P(X_{m+1}=j|X_m=i)$$<p>Here, $p_{ij}$ is the probability of transitioning from state $i$ to state $j$.</p>
 <p>In addition, we also have $p_{ij} = P(X_1=j|X_0=i) = P(X_2=j|X_1=i) = P(X_3=j|X_2=i) = \ldots$. This means that if the process is in state $i$, it will next make a transition to state $j$ with probability $p_{ij}$, independent of what particular time step we find ourselves at.</p>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Code-Example"><strong>Code Example</strong><a class="anchor-link" href="#Code-Example">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -1255,6 +1279,7 @@ $$p_{ij} = P(X_{m+1}=j|X_m=i)$$<p>Here, $p_{ij}$ is the probability of transitio
 <span class="c1"># Simulate the Markov chain</span>
 <span class="n">Xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">X</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="c1"># Sample the next state given the current state</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span> <span class="n">p</span><span class="o">=</span><span class="n">P</span><span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="p">:])</span>
     <span class="n">Xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
@@ -1292,15 +1317,20 @@ $$p_{ij} = P(X_{m+1}=j|X_m=i)$$<p>Here, $p_{ij}$ is the probability of transitio
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Or with fewer states:</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="c1"># Transition matrix</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Transition matrix</span>
 <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span>
               <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span>
               <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]])</span>
@@ -1350,6 +1380,43 @@ $$p_{ij} = P(X_{m+1}=j|X_m=i)$$<p>Here, $p_{ij}$ is the probability of transitio
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Distribution-Evolution"><strong>Distribution Evolution</strong><a class="anchor-link" href="#Distribution-Evolution">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Markov processes have cool and simply properties which allow us to directly calculate the evolution of the probability distribution through time, using basic linear algebra! How cool is that? Let's see how this works.</p>
+<p>In practice, if we're given the probability distribution at time step 0, we can calculate the probability distribution at time step 1. This is done by multiplying the transition probability matrix by the initial distribution. We can then calculate the distribution at time step 2 by multiplying the transition probability matrix by the distribution at time step 1. This process can be repeated to calculate the distribution at any time step!</p>
+<p>Consider a state space $X_n \in S = \{0,1,2,\ldots,r\}$, where $r$ is the number of states.
+The initial distribution, $\pi^{(0)}$, is defined by the row vector:</p>
+$$\pi^{(0)} = [P(X_0=0), P(X_0=1), \ldots, P(X_0=r)]$$<p>The distribution at the next time step can be determined using the <strong>Law of Total Probability</strong>:</p>
+$$P(X_1=j) = \sum_{j=0}^r P(X_1=j|X_{0}=i)P(X_{0}=j)$$<p>of course we recognize this as a matrix multiplication:</p>
+$$\pi^{(1)} = \pi^{(0)}p$$<p>and in general:</p>
+$$\pi^{(n)} = \pi^{(n-1)}p$$$$\pi^{(n)} = \pi^{(0)}p^n$$<p>All you have to do is calculate the matrix $p$ and the initial distribution $\pi^{(0)}$ and you can calculate the distribution at any time step!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now what if we ask another question. What is the probability of going from state $i$ to state $j$ in $2$ steps? Once again, we can use the law of total probability:</p>
+$$P(X_2=j|X_0=i) = \sum_{k=0}^r P(X_2=j|X_{1}=k,X_{0}=i)P(X_{1}=k|X_{0}=i)$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
