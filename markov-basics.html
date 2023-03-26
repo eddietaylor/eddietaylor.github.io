@@ -1335,7 +1335,7 @@ $$p_{ij} = P(X_{m+1}=j|X_m=i)$$<p>Here, $p_{ij}$ is the probability of transitio
               <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span>
               <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]])</span>
 
-<span class="c1"># Initial state</span>
+<span class="c1"># Initial state (scalar state vector with 3 possible states)</span>
 <span class="n">X</span> <span class="o">=</span> <span class="mi">0</span>
 
 <span class="c1"># Number of steps</span>
@@ -1344,6 +1344,7 @@ $$p_{ij} = P(X_{m+1}=j|X_m=i)$$<p>Here, $p_{ij}$ is the probability of transitio
 <span class="c1"># Simulate the Markov chain</span>
 <span class="n">Xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">X</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="c1"># sample the next state given the current state (recall that the row of the transition matrix is the current state and the column is the next state)</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">p</span><span class="o">=</span><span class="n">P</span><span class="p">[</span><span class="n">X</span><span class="p">,</span> <span class="p">:])</span>
     <span class="n">Xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
@@ -1391,14 +1392,13 @@ $$p_{ij} = P(X_{m+1}=j|X_m=i)$$<p>Here, $p_{ij}$ is the probability of transitio
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Markov processes have cool and simply properties which allow us to directly calculate the evolution of the probability distribution through time, using basic linear algebra! How cool is that? Let's see how this works.</p>
-<p>In practice, if we're given the probability distribution at time step 0, we can calculate the probability distribution at time step 1. This is done by multiplying the transition probability matrix by the initial distribution. We can then calculate the distribution at time step 2 by multiplying the transition probability matrix by the distribution at time step 1. This process can be repeated to calculate the distribution at any time step!</p>
+<p>Markov processes have cool and simple properties which allow us to directly calculate the evolution of the probability distribution through time, using basic linear algebra! How cool is that? Let's see how this works.</p>
 <p>Consider a state space $X_n \in S = \{0,1,2,\ldots,r\}$, where $r$ is the number of states.
 The initial distribution, $\pi^{(0)}$, is defined by the row vector:</p>
-$$\pi^{(0)} = [P(X_0=0), P(X_0=1), \ldots, P(X_0=r)]$$<p>The distribution at the next time step can be determined using the <strong>Law of Total Probability</strong>:</p>
-$$P(X_1=j) = \sum_{j=0}^r P(X_1=j|X_{0}=i)P(X_{0}=j)$$<p>of course we recognize this as a matrix multiplication:</p>
-$$\pi^{(1)} = \pi^{(0)}p$$<p>and in general:</p>
-$$\pi^{(n)} = \pi^{(n-1)}p$$$$\pi^{(n)} = \pi^{(0)}p^n$$<p>All you have to do is calculate the matrix $p$ and the initial distribution $\pi^{(0)}$ and you can calculate the distribution at any time step!</p>
+$$\pi^{(0)} = [P(X_0=0), P(X_0=1), \ldots, P(X_0=r)]$$<p>The distribution at the next time step can be determined using the <a href="/probability-fundamentals.html">Law of Total Probability</a>:</p>
+$$P(X_1=j) = \sum_{i=0}^r P(X_1=j|X_{0}=i)P(X_{0}=i)$$<p>of course we recognize this as a matrix multiplication:</p>
+$$ P(X_1=j) = \sum_{i=0}^r \pi^{(0)}_i p_{ij}$$$$\pi^{(1)} = \pi^{(0)}p$$<p>and in general:</p>
+$$\pi^{(n)} = \pi^{(n-1)}p$$$$\pi^{(n)} = \pi^{(0)}p^n$$<p>In practice, if we know the probability distribution at time step 0, we can calculate the probability distribution at time step 1. This is done by multiplying the initial distribution by the transition probability matrix. We can then calculate the distribution at time step 2 by multiplying the distribution at time step 1 by the transition probability matrix. This process can be repeated to calculate the distribution at any time step as long as you know the initial distribution and the transition probability matrix.</p>
 
 </div>
 </div>
@@ -1406,14 +1406,106 @@ $$\pi^{(n)} = \pi^{(n-1)}p$$$$\pi^{(n)} = \pi^{(0)}p^n$$<p>All you have to do is
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now what if we ask another question. What is the probability of going from state $i$ to state $j$ in $2$ steps? Once again, we can use the law of total probability:</p>
-$$P(X_2=j|X_0=i) = \sum_{k=0}^r P(X_2=j|X_{1}=k,X_{0}=i)P(X_{1}=k|X_{0}=i)$$
+<p>Now what if we ask another question. What is the probability of going from state $i$ to state $j$ in $2$ steps? Intuitively, you're now asking about a transition between states when a certain time as elapsed. Once again, we can use the law of total probability by summing over all possible states at time step 1:</p>
+$$P(X_2=j|X_0=i) = \sum_{k=0}^r P(X_2=j|X_{1}=k,X_{0}=i)P(X_{1}=k|X_{0}=i)$$<p>by the markov property:</p>
+$$P(X_2=j|X_1=k,X_0=i) = P(X_2=j|X_1=k)$$<p>so</p>
+$$P(X_2=j|X_0=i) = \sum_{k=0}^r P(X_2=j|X_{1}=k)P(X_{1}=k|X_{0}=i)$$$$P(X_2=j|X_0=i) = \sum_{k=0}^r p_{kj}p_{ik}$$<p>this is just matrix multiplication:</p>
+$$P(X_2=j|X_0=i) = p^2$$<p>We can extend this result to what is known as the Chapman-Kolmogorov equation:</p>
+$$P(X_m=j|X_n=i) = p^{(m+n)}_{ij} = p^np^m$$
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Absorption-Probabilities,-Mean-Hitting-Times-and-Mean-Return-Times"><strong>Absorption Probabilities, Mean Hitting Times and Mean Return Times</strong><a class="anchor-link" href="#Absorption-Probabilities,-Mean-Hitting-Times-and-Mean-Return-Times">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In order to understand some critical concepts in Markov chains such as mean hitting time and mean return time, we need to examine Markov chains from a diagrammatic perspective and state some definitions.</p>
+<p>One of the most basic definitions is <strong>accessibility</strong>. A state $j$ is accessible from state $i$ if there is a path from $i$ to $j$, written as $i \rightarrow j$. Mathematically, this means that for some $n$, there is a finite transition probability from $i$ to $j$:</p>
+$$p_{ij}^{(n)} &gt; 0$$<p>Furthermore, two states are said to <strong>communicate</strong> if they are accessible to each other. This means that there is a path from $i$ to $j$ and a path from $j$ to $i$. Mathematically, this means that for some $n$, there is a finite transition probability from $j$ to $i$ and a finite transition probability from $i$ to $j$:</p>
+$$p_{ij}^{(n)} &gt; 0 \text{ and } p_{ji}^{(n)} &gt; 0$$<p>A Markov chain can be partitioned into a set of communicating classes where each class is a set of states that communicate with each other. Lets look at a Markov diagram below to visualize this.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<figure>
+  <center><img style='height: 100%; width: 100%; object-fit: contain' src="../images/markov_diagram.jpg" /></center>
+  <center><figcaption> A Markov diagram with 3 communicating classes</figcaption></center>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In the diagram above, states 1,2, and 5 are a communicating class, states 3 and 4 are a communicating class, and states 6 and 7 are a communicating class.</p>
+<p>You'll notice that there are certain states that are <strong>transient</strong> (meaning there is a chance you won't return) and other states which are <strong>recurrent</strong> (meaning you will definitely return). In the diagram above, states 1,2, and 5 are recurrent and states 3 and 4 are transient.</p>
+<p>Formally, a state is recurrent if:</p>
+$$p_{ii}^{(n)} = 1 \text{ for some } n \gt 0$$<p>and it is transient if:</p>
+$$p_{ii}^{(n)} &lt; 1 \text{ for all } n \gt 0$$<p>In addition, the number of times a recurrent state is visited after leaving it is infinite. It can be shown that the number of times a transient state is visited after leaving it follows a Geometric random variable. These definitions extend to classes in that if two states are in the same class, then they are both recurrent or both transient.</p>
+<p>We also have the concept of <strong>periodicity</strong> where you can only come back to a certain state after a certain number of steps with a greatest common divisor. In other words, a class has periodicity $k$ if $k$ is the greatest common divisor or all integers $n&gt;0$ for which $p_{ii}^{(n)} &gt; 0$</p>
+<p>For an <strong>irreducible</strong> Markov chain (all states communicate), the chain is aperiodic if there is a self transition. It can also be classified as aperiodic if the period of it is 1.</p>
+<p>We can now talk about absorption probabilities, mean hitting times, and mean return times.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Consider the following Markov chain:</p>
+<figure>
+  <center><img style='height: 100%; width: 100%; object-fit: contain' src="../images/markov_diagram_stopping.jpg" /></center>
+  <center><figcaption> A Markov diagram with 2 absorbing states</figcaption></center>
+</figure><p>Another concept with Markov chains is the concept of <strong>absorbing</strong> states where, essentially, once you enter you never leave. 0 and 3 in the above diagram are absorbing states. Now, to find the probability of absorption into 3, given an initial state, we would like to calculate the probability.</p>
+<p>We once again use the law of total probability, and specifically the law of total probability for conditional probability:</p>
+$$ P(A|C) = \sum_{i=1}^r P(A|B_i, C)P(B_i|C)$$<p>where $r$ is the number of outcomes over the set of disjoint events $B_i$. Lets define $a_i$ to be the absorption into state 3, given you start in state $i$. Then we can write:</p>
+$$a_i = P(\text{absorption into 0} | X_{0}=i) $$$$a_i = \sum_{k=0}^r P(\text{absorption into 0} | X_{1}=k, X_{0}=i) P(X_{1}=k|X_{0}=i) $$<p>Then by Markov property:</p>
+$$a_i = \sum_{k=0}^r P(\text{absorption into 0} | X_{1}=k) P(X_{1}=k|X_{0}=i) $$<p>so</p>
+$$a_i = \sum_{k=0}^r a_i p_{ik} $$<p>Remembering that we are trying to solve for the absorption probability from state $3$, we have the set of equations:</p>
+$$ a_0 = 0 $$$$ a_1 = \frac{1}{3}b_0 + \frac{2}{3}b_2 $$$$ a_2 = \frac{1}{2}b_1 + \frac{1}{2}b_3 $$$$ a_3 = 1 $$<p>two equations and two unknowns mean we can solve for $a_1$ and $a_2$!</p>
+<p>Now we can move on to the <strong>mean hitting time</strong> which is just the expected time to hit a certain set of states. The same procedure follows, where we sum the probabilities to transition to a certain state multiplied by its mean hitting time. The equation is completely analogous. Formally, $t_{i}$ is defined as the mean hitting time to a set of states beginning at state $i$:</p>
+$$ t_{i} = E[T|X_{0}=i] $$<p>where $T$ is the first time the chain visits the target state. In practice this conditional expectation value can be calculated as:</p>
+$$ t_{i} = 1 + \sum_{k} t_{k}p_{ik} $$<p>To get the mean return time, we just apply this same equation to the situation where we start in the state we are attempting to calculate the mean return time for.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Distributions-in-the-Limit"><strong>Distributions in the Limit</strong><a class="anchor-link" href="#Distributions-in-the-Limit">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>How can we find out if a Markov chain converges to a stationary distribution, and what that distribution is? Assuming that the chain is irreducible and aperiodic, we can use a very simple and intuitive equation. If the chain is in steady-state, then we should get the same distribution when evolving forward one time step via matrix multiplication against the transition probability matrix:</p>
+$$ \pi = \pi P $$<p>where $\pi$ is the stationary distribution. So, the solution to this equation is the stationary distribution, if one exists.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Summary"><strong>Summary</strong><a class="anchor-link" href="#Summary">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this article, we have learned about the fundamental stochastic process known as the Markov chain. In this process, the Markov property is its essential feature, which essentially says that future states are independent of the past given the present. A key quantifier of the Markov chain is its transition probability matrix, which is a matrix that describes the probability of transitioning from one state to another. We learned how to simulate a basic Markov chain in Python and saw how the increasing size of the state space leads to a noisier signal. We also know now how to evolve the probability distribution of the states forward in time using simple matrix multiplication agains the transition probability matrix. We learned about Markov chain diagrams and how to classify the states of a Markov chain as transient or recurrent. We then discussed the concept of absorption and how to calculate the probability of absorption into a certain state, in addition to the mean hitting and return times. Finally, we learned how to find the stationary distribution of a Markov chain which involves the solution to a seemingly simple equation. These set of concepts are a pretty good place to start when it comes to stochastic processes and reinforcement learning via Markov decision processes.</p>
 
 </div>
 </div>
@@ -1430,6 +1522,7 @@ $$P(X_2=j|X_0=i) = \sum_{k=0}^r P(X_2=j|X_{1}=k,X_{0}=i)P(X_{1}=k|X_{0}=i)$$
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Introduction. (n.d.). Www.probabilitycourse.com. Retrieved January 25, 2023, from <a href="https://www.probabilitycourse.com/chapter11/11_2_1_introduction.php">https://www.probabilitycourse.com/chapter11/11_2_1_introduction.php</a></p>
 <p>‌Markov Chains | Brilliant Math &amp; Science Wiki. (n.d.). Brilliant.org. <a href="https://brilliant.org/wiki/markov-chains/#:~:text=A%20Markov%20chain%20is%20a">https://brilliant.org/wiki/markov-chains/#:~:text=A%20Markov%20chain%20is%20a</a></p>
+<p>Using the Law of Total Probability with Recursion. (n.d.). Www.probabilitycourse.com. Retrieved March 26, 2023, from <a href="https://www.probabilitycourse.com/chapter11/11_2_5_using_the_law_of_total_probability_with_recursion.php">https://www.probabilitycourse.com/chapter11/11_2_5_using_the_law_of_total_probability_with_recursion.php</a></p>
 
 </div>
 </div>
